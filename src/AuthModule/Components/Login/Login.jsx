@@ -20,7 +20,7 @@ const Login = () => {
         <Col md={6} className="">
           <div className="logo-box"></div>
           <div className="form-box p-4 rounded">
-            <div className="logo-box ">
+            <div className="logo-box  ">
               <img className="w-50 " src={logo} alt="" />
             </div>
 
