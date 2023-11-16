@@ -18,7 +18,6 @@ const Login = () => {
     <Container fluid className="auth-container">
       <Row className="bg-overlay vh-100 justify-content-center align-items-center ">
         <Col md={6} className="">
-          <div className="logo-box"></div>
           <div className="form-box p-4 rounded">
             <div className="logo-box  ">
               <img className="w-50 " src={logo} alt="" />
