@@ -12,6 +12,7 @@ import CategoryList from "./CategoriesModule/Components/CategoryList/CategoryLis
 import AuthLayout from "./SharedModule/Components/AuthLayout/AuthLayout";
 import Login from "./AuthModule/Components/Login/Login";
 import ForgetPassword from "./AuthModule/Components/ForgetPassword/ForgetPassword";
+import Register from "./AuthModule/Components/Register/Register";
 
 function App() {
   const routes = createBrowserRouter([
@@ -33,6 +34,7 @@ function App() {
       children: [
         { index: true, element: <Login /> },
         { path: "forget-password", element: <ForgetPassword /> },
+        { path: "register", element: <Register /> },
       ],
     },
   ]);
