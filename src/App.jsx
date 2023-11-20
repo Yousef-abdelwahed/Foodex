@@ -15,6 +15,7 @@ import ForgetPassword from "./AuthModule/Components/ForgetPassword/ForgetPasswor
 import Register from "./AuthModule/Components/Register/Register";
 
 function App() {
+  const [adminData,setAdminData]
   const routes = createBrowserRouter([
     {
       path: "/dashboard",

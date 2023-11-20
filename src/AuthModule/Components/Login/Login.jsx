@@ -1,6 +1,6 @@
 /** @format */
 
-import { Col, Container, Row, ToastContainer } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 
 import Form from "react-bootstrap/Form";
@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 // import { authLogin } from "../../../UrlModule";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
@@ -26,16 +26,11 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-
   const onSubmit = (data) => {
     axios
-      .post(" http://localhost:3000/login", data, {
-        headers: { "content-type": "application/json" },
-        withCredentials: true,
-      })
+      .post("http://upskilling-egypt.com:3002/api/v1/Users/Login", data)
       .then((request) => {
-        setTimeout(toast("Wow so easy!"), 2000);
-        console.log(request.data);
+        // setTimeout(toast("Wow so easy!"), 2000);
         navigate("/dashboard");
       })
       .catch((error) => toast(error.response.data.message));
