@@ -60,3 +60,16 @@
 .text-green {
   color: var(--main-color);
 }
+
+.ps-menu-root {
+  background-color: #1f263e !important;
+  color: #fff;
+}
+.css-dip3t8 {
+  background-color: #1f263e !important;
+  color: #fff;
+}
+
+.css-16jesut > .ps-menu-button:hover {
+  background-color: darkcyan;
+}

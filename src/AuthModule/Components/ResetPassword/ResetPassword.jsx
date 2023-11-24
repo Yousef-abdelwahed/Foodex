@@ -1,4 +1,5 @@
 /** @format */
+/** @format */
 
 import { Col, Container, Row } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -15,11 +16,11 @@ import logo from "../../../assets/images/authLogo.png";
 import { useForm } from "react-hook-form";
 // import { authLogin } from "../../../UrlModule";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Login = ({ saveAdminData }) => {
+const ResetPassword = () => {
   const {
     register,
     handleSubmit,
@@ -27,13 +28,12 @@ const Login = ({ saveAdminData }) => {
   } = useForm();
   const navigate = useNavigate();
   const onSubmit = (data) => {
+    console.log(data);
     axios
-      .post("http://upskilling-egypt.com:3002/api/v1/Users/Login", data)
+      .post("http://upskilling-egypt.com:3002/api/v1/Users/Reset", data)
       .then((response) => {
-        localStorage.setItem("adminToken", response.data.token);
-        // setTimeout(toast("Wow so easy!"), 2000);
-        saveAdminData();
-        navigate("/dashboard");
+        navigate("/login");
+        setTimeout(() => toast(response.data.message), 500);
       })
       .catch((error) => toast(error.response.data.message));
   };
@@ -48,9 +48,9 @@ const Login = ({ saveAdminData }) => {
               <img className="w-50 " src={logo} alt="" />
             </div>
 
-            <h2>Login</h2>
+            <h2>Reset Password</h2>
             <p className="text-muted ">
-              Welcome Back! Please enter your details
+              Please Enter Your Otp or Check Your Inbox
             </p>
             <Form onSubmit={handleSubmit(onSubmit)}>
               <InputGroup className="mb-1" size="md">
@@ -63,26 +63,24 @@ const Login = ({ saveAdminData }) => {
                   aria-describedby="basic-addon1"
                   {...register("email", {
                     required: true,
-                    pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
                   })}
                 />
               </InputGroup>
               {errors.email && errors.email.type === "required" && (
                 <span className="text-danger">the email is required </span>
               )}
-              {errors.email && errors.email.type === "pattern" && (
-                <span className="text-danger">invalid email </span>
-              )}
+
+              {/* OTP */}
               <InputGroup className="my-2" size="md">
                 <InputGroup.Text id="basic-addon1">
                   <FontAwesomeIcon icon={faLock} />{" "}
                 </InputGroup.Text>
                 <Form.Control
-                  placeholder="Password"
-                  aria-label="Password"
+                  placeholder="OTP"
+                  aria-label="OTP"
                   type="password"
                   aria-describedby="basic-addon1"
-                  {...register("password", {
+                  {...register("seed", {
                     required: true,
                     min: 6,
                   })}
@@ -91,21 +89,51 @@ const Login = ({ saveAdminData }) => {
               {errors.password && errors.password?.type === "required" && (
                 <span className="text-danger">the password is required </span>
               )}
-              {errors.password && errors.password?.type === "min" && (
-                <span className="text-danger">invalid password </span>
+              {/* Password */}
+              <InputGroup className="my-2" size="md">
+                <InputGroup.Text id="basic-addon1">
+                  <FontAwesomeIcon icon={faLock} />{" "}
+                </InputGroup.Text>
+                <Form.Control
+                  placeholder="New Password"
+                  aria-label="password"
+                  type="password"
+                  aria-describedby="basic-addon1"
+                  {...register("password", {
+                    required: true,
+                  })}
+                />
+              </InputGroup>
+              {errors.password && errors.password?.type === "required" && (
+                <span className="text-danger">the password is required </span>
               )}
-              <div className="d-flex justify-content-between mb-4 my-2">
-                <Link to={"/register"}>Register Now?</Link>
 
-                <span className=" ">
-                  <Link className="text-green " to={"/reset-password-request"}>
-                    Forgot Password?
-                  </Link>
-                </span>
-              </div>
+              {/* Confirm Password */}
+              <InputGroup className="my-2" size="md">
+                <InputGroup.Text id="basic-addon1">
+                  <FontAwesomeIcon icon={faLock} />
+                </InputGroup.Text>
+                <Form.Control
+                  placeholder="confirm Password"
+                  aria-label="confirm Password"
+                  type="password"
+                  aria-describedby="basic-addon1"
+                  {...register("confirmPassword", {
+                    required: true,
+                  })}
+                />
+              </InputGroup>
+              {errors.confirmPassword &&
+                errors.confirmPassword?.type === "required" && (
+                  <span className="text-danger">
+                    the confirm Password is required{" "}
+                  </span>
+                )}
+
+              {/* ************************************** */}
               <div className="d-grid gap-2 my-2">
                 <Button variant="success" type="submit" size="md">
-                  <span>Login</span>
+                  <span>Reset Password</span>
                 </Button>
               </div>
             </Form>
@@ -116,4 +144,4 @@ const Login = ({ saveAdminData }) => {
   );
 };
 
-export default Login;
+export default ResetPassword;

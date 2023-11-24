@@ -1,9 +1,7 @@
-import React from 'react'
+/** @format */
 
-const NavBar = () => {
-  return (
-    <div>NavBar</div>
-  )
-}
+const NavBar = (adminData) => {
+  return <div>Nav</div>;
+};
 
-export default NavBar
+export default NavBar;
