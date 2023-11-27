@@ -4,10 +4,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 
 import Form from "react-bootstrap/Form";
-import {
-  faLock,
-  faMobileScreenButton,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMobileScreenButton } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "react-bootstrap/Button";
 
@@ -18,8 +15,12 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
+import PasswordInput from "../../../SharedModule/Components/PasswordInput/PasswordInput";
 
 const Login = ({ saveAdminData }) => {
+  const [password, setPassword] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -31,7 +32,6 @@ const Login = ({ saveAdminData }) => {
       .post("http://upskilling-egypt.com:3002/api/v1/Users/Login", data)
       .then((response) => {
         localStorage.setItem("adminToken", response.data.token);
-        // setTimeout(toast("Wow so easy!"), 2000);
         saveAdminData();
         navigate("/dashboard");
       })
@@ -73,7 +73,7 @@ const Login = ({ saveAdminData }) => {
               {errors.email && errors.email.type === "pattern" && (
                 <span className="text-danger">invalid email </span>
               )}
-              <InputGroup className="my-2" size="md">
+              {/* <InputGroup className="my-2" size="md">
                 <InputGroup.Text id="basic-addon1">
                   <FontAwesomeIcon icon={faLock} />{" "}
                 </InputGroup.Text>
@@ -90,14 +90,23 @@ const Login = ({ saveAdminData }) => {
               </InputGroup>
               {errors.password && errors.password?.type === "required" && (
                 <span className="text-danger">the password is required </span>
-              )}
-              {errors.password && errors.password?.type === "min" && (
-                <span className="text-danger">invalid password </span>
-              )}
-              <div className="d-flex justify-content-between mb-4 my-2">
+              )} */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                
+                }}
+              >
+                <PasswordInput
+                  password={password}
+                  handlePassword={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <div className="d-flex justify-content-between mb-4 my-2 courser ">
                 <Link to={"/register"}>Register Now?</Link>
 
-                <span className=" ">
+                <span className=" courser ">
                   <Link className="text-green " to={"/reset-password-request"}>
                     Forgot Password?
                   </Link>
