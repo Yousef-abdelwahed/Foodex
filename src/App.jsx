@@ -39,7 +39,7 @@ function App() {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Home /> },
-        { path: "user", element: <UserList /> },
+        { path: "users", element: <UserList /> },
         { path: "recipes", element: <RecipesList /> },
         { path: "categories", element: <CategoryList /> },
       ],

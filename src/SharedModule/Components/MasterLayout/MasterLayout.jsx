@@ -1,21 +1,20 @@
 /** @format */
 
-import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import SideBar from "../SideBar/SideBar";
 import { Outlet } from "react-router-dom";
-import NavBar from "../NavBar/NavBar";
+import NavCompoenet from "../NavCompoenet/NavCompoenet";
 import Header from "../Header/Header";
 
 const MasterLayout = ({ adminData }) => {
   return (
-    <Container fluid>
-      <Row>
+    <Container fluid className="p-0">
+      <Row className="ps-0">
         <Col md={2}>
           <SideBar />
         </Col>
-        <Col md={10}>
-          <NavBar adminData={adminData} />
+        <Col md={8}>
+          <NavCompoenet adminData={adminData} />
           <Header />
           <Outlet />
         </Col>

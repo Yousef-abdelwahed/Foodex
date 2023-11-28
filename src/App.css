@@ -3,7 +3,9 @@
 :root {
   --main-color: #4aa35a;
 }
-
+body {
+  margin: 0;
+}
 /**
  * #root {
  *   max-width: 1280px;
@@ -46,7 +48,8 @@
  * @keyframes logo-spin { from { transform: rotate(0deg);
  * @media (prefers-reduced-motion: no-preference) { a:nth-of-type(2) .logo { animation: logo-spin infinite 20s linear;
  */
-
+.row {
+}
 .auth-container {
   background-image: url(assets/images/main-bg-img.png);
   background-size: cover;
@@ -60,19 +63,50 @@
 .text-green {
   color: var(--main-color);
 }
-
-.ps-menu-root {
-  background-color: #1f263e !important;
-  color: #fff;
-}
+/* sidebar style */
 .css-dip3t8 {
+  margin-left: 0px;
   background-color: #1f263e !important;
   color: #fff;
+  border-radius: 0rem 2.625rem 0rem 0rem;
 }
 
-.css-16jesut > .ps-menu-button:hover {
-  background-color: darkcyan;
+/* .input-icon {
+} */
+.ps-menuitem-root {
 }
-.input-icon {
-  border-right: 1px solid gray;
+.active,
+.ps-menuitem-root a:hover {
+  background: #4aa34f26 !important;
+  border-left: 4px solid var(--main-color);
+}
+/*header-section*/
+.header-section {
+  background-image: url("./assets/images/Rectangle.png");
+  width: 71.9375rem;
+  height: 20.1875rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 4rem;
+}
+.header-section h1 {
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: #fff;
+}
+.header-section span {
+  color: #dfe0e0;
+
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.header-section p {
+  width: 27rem;
+  line-height: 1.5rem;
+  color: #fff;
 }
