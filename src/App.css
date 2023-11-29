@@ -83,11 +83,12 @@ body {
 /*header-section*/
 .header-section {
   background-image: url("./assets/images/Rectangle.png");
-  width: 71.9375rem;
-  height: 20.1875rem;
+  width: 100%;
+  background-repeat: no-repeat;
+
   display: flex;
-  justify-content: center;
-  flex-direction: column;
+  border-radius: 2rem;
+
   padding: 4rem;
 }
 .header-section h1 {

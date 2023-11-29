@@ -8,16 +8,18 @@ import Header from "../Header/Header";
 
 const MasterLayout = ({ adminData }) => {
   return (
-    <Container fluid className="p-0">
-      <Row className="ps-0">
-        <Col md={2}>
+    <Container fluid className="">
+      <Row className="flex-direction-row">
+        <div className=" ">
           <SideBar />
-        </Col>
-        <Col md={8}>
+        </div>
+        <div className=" ">
           <NavCompoenet adminData={adminData} />
-          <Header />
+          <div className=" bg-danger">
+            <Header />
+          </div>
           <Outlet />
-        </Col>
+        </div>
       </Row>
     </Container>
   );
