@@ -14,7 +14,7 @@ import Login from "./AuthModule/Components/Login/Login";
 import ForgetPassword from "./AuthModule/Components/ForgetPassword/ForgetPassword";
 import Register from "./AuthModule/Components/Register/Register";
 import { useEffect, useState } from "react";
-import ProtectedRoute from "./SharedModule/Components/ProtectedRoute/ProtectedRoute";
+// import ProtectedRoute from "./SharedModule/Components/ProtectedRoute/ProtectedRoute";
 import { jwtDecode } from "jwt-decode";
 import ResetPasswordRequest from "./AuthModule/Components/ResetPasswordRequest/ResetPasswordRequest";
 import ResetPassword from "./AuthModule/Components/ResetPassword/ResetPassword";

@@ -1,21 +1,21 @@
 /** @format */
 
-import React from "react";
 import headerImg from "../../../assets/images/header-img.svg";
 const Header = () => {
   return (
-    <div className="header-section my-2">
-      <div>
+    <div className="header-section d-flex align-items-center  justify-content-between pt-4 px-5 bg-primary rounded-3">
+      <div className="">
         <h1>
-          Welcome <span className="">Upskilling!</span>
+          Welcome <span>UpSkilling!</span>
         </h1>
-        <p className="text-wrap">
+        <p>
           This is a welcoming screen for the entry of the application , you can
           now see the options
         </p>
       </div>
-      <div className="img-header ms-auto">
-        <img src={headerImg} alt="Welcome image" />
+
+      <div className="py-0">
+        <img className="w-100" src={headerImg} />
       </div>
     </div>
   );

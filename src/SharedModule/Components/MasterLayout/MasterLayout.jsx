@@ -1,6 +1,5 @@
 /** @format */
 
-import { Container, Row, Col } from "react-bootstrap";
 import SideBar from "../SideBar/SideBar";
 import { Outlet } from "react-router-dom";
 import NavCompoenet from "../NavCompoenet/NavCompoenet";
@@ -8,20 +7,20 @@ import Header from "../Header/Header";
 
 const MasterLayout = ({ adminData }) => {
   return (
-    <Container fluid className="">
-      <Row className="flex-direction-row">
-        <div className=" ">
+    <div className="d-flex bg-dark px-0">
+      <div>
+        <div>
           <SideBar />
         </div>
-        <div className=" ">
-          <NavCompoenet adminData={adminData} />
-          <div className=" bg-danger">
-            <Header />
-          </div>
+      </div>
+      <div className="w-100 my-3 ">
+        <div className="mx-3 ">
+          <NavCompoenet />
+          <Header />
           <Outlet />
         </div>
-      </Row>
-    </Container>
+      </div>
+    </div>
   );
 };
 
