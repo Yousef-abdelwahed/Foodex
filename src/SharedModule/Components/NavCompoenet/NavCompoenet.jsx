@@ -1,57 +1,59 @@
 /** @format */
-import logo from "../../../assets/images/2.png";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import logo from "../../../assets/images/8c008bab0c67b666a9ccda1c84f11215.png";
+
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
-import Image from "react-bootstrap/Image";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Form from "react-bootstrap/Form";
+import SearchIcon from "@mui/icons-material/Search";
+import { useState } from "react";
 
 const NavCompoenet = (adminData) => {
+  let data = adminData;
+  // const x = <SearchIcon fontSize="small" />;
   return (
     <>
-      {/* <div className="bg-light rounded-3">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light rounded-1 p-3">
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <div className="ms-auto">
-              <a className="navbar-brand" href="#">
+      <Navbar className="bg-body-tertiary py-2 rounded-3">
+        <Container className="">
+          <Form.Control
+            type="text"
+            placeholder="Search Here"
+            className=" mr-sm-2 mx-3 rounded-pill"
+          />
+          <Navbar.Toggle />
+          <Navbar.Collapse className="">
+            <div className="ms-auto ">
+              <Navbar.Brand href="#home" className="me-2 ">
                 <img
                   src={logo}
-                  width="30"
-                  height="30"
-                  className="d-inline-block align-top"
-                  alt=""
+                  width="60"
+                  height="60"
+                  className="d-inline-block align-top user-pic rounded-circle p-3"
+                  alt="React Bootstrap logo"
                 />
-                Bootstrap
-              </a>
+              </Navbar.Brand>
             </div>
-            <span className="px-2">
-              <KeyboardArrowDownIcon fontSize="small" />
-            </span>
-            <span className="px-2">
-              <NotificationsIcon fontSize="small" color="#fff" />
-            </span>
-          </div>
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-              <a className="nav-link" href="#">
-                Home <span className="sr-only">(current)</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div> */}
-
-      <Navbar className="bg-body-tertiary">
-        <Container>
-          <Navbar.Brand href="#home">
-            {" "}
-            <Image src={logo} roundedCircle />
-          </Navbar.Brand>
-          <Navbar.Toggle />
-          <Navbar.Collapse className="justify-content-end">
-            <Navbar.Text>
-              Signed in as: <a href="#login">Mark Otto</a>
-            </Navbar.Text>
+            <Navbar.Text>{"data.adminData.userName"}</Navbar.Text>
+            <div className="mx-3">
+              <NavDropdown title={" "} id="basic-nav-dropdown">
+                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">
+                  Another action
+                </NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">
+                  Something
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action/3.4">
+                  Separated link
+                </NavDropdown.Item>
+              </NavDropdown>
+              {/* <KeyboardArrowDownIcon fontSize="small" /> */}
+            </div>
+            <div className="mx-3">
+              <NotificationsIcon fontSize="small" />
+            </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>

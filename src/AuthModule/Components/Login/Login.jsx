@@ -10,13 +10,12 @@ import Button from "react-bootstrap/Button";
 
 import logo from "../../../assets/images/authLogo.png";
 import { useForm } from "react-hook-form";
-// import { authLogin } from "../../../UrlModule";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
-import PasswordInput from "../../../SharedModule/Components/PasswordInput/PasswordInput";
+// import PasswordInput from "../../../SharedModule/Components/PasswordInput/PasswordInput";
 
 const Login = ({ saveAdminData }) => {
   const [password, setPassword] = useState("");
@@ -27,9 +26,9 @@ const Login = ({ saveAdminData }) => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const onSubmit = (data) => {
+  const handleLoginForm = (data) => {
     axios
-      .post("http://upskilling-egypt.com:3002/api/v1/Users/Login", data)
+      .post("https://upskilling-egypt.com:443/api/v1/Users/Login", data)
       .then((response) => {
         localStorage.setItem("adminToken", response.data.token);
         saveAdminData();
@@ -52,7 +51,7 @@ const Login = ({ saveAdminData }) => {
             <p className="text-muted ">
               Welcome Back! Please enter your details
             </p>
-            <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={handleSubmit(handleLoginForm)}>
               <InputGroup className="mb-1" size="md">
                 <InputGroup.Text id="basic-addon1">
                   <FontAwesomeIcon icon={faMobileScreenButton} />
@@ -73,9 +72,9 @@ const Login = ({ saveAdminData }) => {
               {errors.email && errors.email.type === "pattern" && (
                 <span className="text-danger">invalid email </span>
               )}
-              {/* <InputGroup className="my-2" size="md">
+              <InputGroup className="my-2" size="md">
                 <InputGroup.Text id="basic-addon1">
-                  <FontAwesomeIcon icon={faLock} />{" "}
+                  {/* <FontAwesomeIcon icon={faLock} />{" "} */}
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="Password"
@@ -90,19 +89,24 @@ const Login = ({ saveAdminData }) => {
               </InputGroup>
               {errors.password && errors.password?.type === "required" && (
                 <span className="text-danger">the password is required </span>
-              )} */}
-              <div
+              )}
+              {/* <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
-                
                 }}
               >
                 <PasswordInput
                   password={password}
                   handlePassword={(e) => setPassword(e.target.value)}
+                  validation={{
+                    ...register("password", {
+                      required: true,
+                      min: 6,
+                    }),
+                  }}
                 />
-              </div>
+              </div> */}
               <div className="d-flex justify-content-between mb-4 my-2 courser ">
                 <Link to={"/register"}>Register Now?</Link>
 
