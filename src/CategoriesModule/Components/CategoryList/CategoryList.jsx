@@ -16,13 +16,16 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import CategoryTable from "./CategoryTable";
 import { CircularProgress } from "@mui/material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import noData from "../../../assets/images/noData.png";
 
 const CategoryList = () => {
+  const { basUrl, headerAuth } = useContext(AuthContext);
   const [age, setAge] = useState("");
   const [show, setShow] = useState(false);
   const [categoriesList, setCategoriesList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { basUrl, headerAuth } = useContext(AuthContext);
+  const [modalState, setModalState] = useState("Closed");
 
   const {
     handleSubmit,
@@ -30,9 +33,18 @@ const CategoryList = () => {
     formState: { error },
   } = useForm();
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+  const showAddModal = () => setModalState("modal-add");
+  const showDeleteModal = (id) => {
+    handleDeleteCategory(id);
+    setModalState("modal-delete");
+  };
+  const handleClose = () => setModalState("Closed");
+  {
+    /*handle delete category */
+  }
+  const handleDeleteCategory = () => {
+    alert("d");
+  };
   const handleSetCategory = (data) => {
     axios
       .post(`${basUrl}Category/`, data, {
@@ -75,6 +87,10 @@ const CategoryList = () => {
         <div>
           <h4>Categories Table Details</h4>
           <p>You can check all details</p>
+          <DeleteOutlineIcon
+            className="text-success"
+            onClick={showDeleteModal}
+          />
         </div>
         <div>
           <Button
@@ -83,7 +99,7 @@ const CategoryList = () => {
             size="lg"
             style={{ width: "15rem" }}
             // disabled={isLoading}
-            onClick={handleShow}
+            onClick={showAddModal}
           >
             Add New Item
             {/* {isLoading ? "Loading…" : `Add New Item`} */}
@@ -144,9 +160,10 @@ const CategoryList = () => {
           </Box>
         </div>
       </div>
+      {/* add Modal */}
       <div className="add-item ">
         <Modal
-          show={show}
+          show={modalState === "modal-add"}
           onHide={handleClose}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
@@ -167,9 +184,48 @@ const CategoryList = () => {
           </Form>
         </Modal>
       </div>
+      {/* Delet Modal */}
+      <div className="add-item ">
+        <Modal
+          show={modalState === "modal-delete"}
+          onHide={handleClose}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header closeButton>
+            {/* <Modal.Title>Delete Category</Modal.Title> */}
+          </Modal.Header>
+          <Form onSubmit={handleSubmit(handleSetCategory)}>
+            <Modal.Body>
+              <div className="text-center">
+                <img src={noData} alt="Delete Category" />
+                <p className="fs-2 fw-bold">Delete This Category</p>
+                <p className="text-muted ">
+                  are you sure you want to delete this item ? if you are sure
+                  just click on delete it
+                </p>
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="outline-danger"
+                type="submit"
+                onClick={handleDeleteCategory}
+              >
+                Delete This Item
+              </Button>
+            </Modal.Footer>
+          </Form>
+        </Modal>
+      </div>
       <div className="recipes-table my-3">
         {loading ? (
-          <CategoryTable categoriesList={categoriesList} />
+          <CategoryTable
+            categoriesList={categoriesList}
+            showAddModal={showAddModal}
+            showDeleteModal={showDeleteModal}
+          />
         ) : (
           <CircularProgress color="success" />
         )}

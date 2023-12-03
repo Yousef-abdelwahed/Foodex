@@ -52,16 +52,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function CategoryTable(props) {
-  //   const [open, setOpen] = useState(false);
-  //   const [anchorEl, setAnchorEl] = useState(null);
-  //   const handleClick = (event) => {
-  //     setAnchorEl(event);
-  //     setOpen((previousOpen) => !previousOpen);
-  //   };
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen((previousOpen) => !previousOpen);
+  };
 
-  //   const canBeOpen = open && Boolean(anchorEl);
-  //   const id = canBeOpen ? "transition-popper" : undefined;
-
+  const canBeOpen = open && Boolean(anchorEl);
+  const id = canBeOpen ? "transition-popper" : undefined;
   return (
     <>
       <TableContainer component={Paper}>
@@ -70,19 +69,79 @@ export default function CategoryTable(props) {
             <TableRow style={{ backgroundColor: "#e3e2e2", color: "white" }}>
               <TableCell>Item Name</TableCell>
               <TableCell align="right">Action</TableCell>
+              <TableCell align="right"></TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody className="text-center"></TableBody>
           {props.categoriesList ? (
             <TableBody>
-              {props.categoriesList.map((row) => (
-                <StyledTableRow key={row.id}>
+              {props.categoriesList.map((row, index) => (
+                <StyledTableRow key={index}>
                   <StyledTableCell component="th" scope="row">
                     {row.name}
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {row.modificationDate}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <div className="mx-2">
+                      <MoreHorizIcon
+                        fontSize="small"
+                        id={id}
+                        onClick={handleClick}
+                      />
+                      <Popper
+                        placement="left"
+                        id={id}
+                        open={open}
+                        anchorEl={anchorEl}
+                        transition
+                      >
+                        {({ TransitionProps }) => (
+                          <Fade {...TransitionProps} timeout={350}>
+                            <Box
+                              sx={{
+                                border: 1,
+                                p: 0,
+                                bgcolor: "background.paper",
+                                borderRadius: "1rem",
+                              }}
+                            >
+                              <List>
+                                <ListItem disablePadding>
+                                  <ListItemButton>
+                                    <ListItemIcon>
+                                      <Visibility className="text-success" />
+                                    </ListItemIcon>
+                                    <ListItemText primary="view" />
+                                  </ListItemButton>
+                                </ListItem>
+                                <ListItem disablePadding>
+                                  <ListItemButton>
+                                    <ListItemIcon>
+                                      <i className="fa-regular fa-pen-to-square text-success"></i>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Edit" />
+                                  </ListItemButton>
+                                </ListItem>
+                                <ListItem
+                                  disablePadding
+                                  onClick={() => props.showDeleteModal(row.id)}
+                                >
+                                  <ListItemButton>
+                                    <ListItemIcon>
+                                      <DeleteOutlineIcon className="text-success" />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Delete" />
+                                  </ListItemButton>
+                                </ListItem>
+                              </List>
+                            </Box>
+                          </Fade>
+                        )}
+                      </Popper>
+                    </div>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
