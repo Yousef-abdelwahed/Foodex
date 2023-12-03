@@ -19,19 +19,19 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
-
+import noData from "../../../assets/images/nodata.png";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+// function createData(name, calories, fat, carbs, protein) {
+//   return { name, calories, fat, carbs, protein };
+// }
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
+// const rows = [
+//   createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+//   createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+//   createData("Eclair", 262, 16.0, 24, 6.0),
+//   createData("Cupcake", 305, 3.7, 67, 4.3),
+//   createData("Gingerbread", 356, 16.0, 49, 3.9),
+// ];
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -51,95 +51,49 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function CategoryTable() {
-  const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
+export default function CategoryTable(props) {
+  //   const [open, setOpen] = useState(false);
+  //   const [anchorEl, setAnchorEl] = useState(null);
+  //   const handleClick = (event) => {
+  //     setAnchorEl(event);
+  //     setOpen((previousOpen) => !previousOpen);
+  //   };
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpen((previousOpen) => !previousOpen);
-  };
-
-  const canBeOpen = open && Boolean(anchorEl);
-  const id = canBeOpen ? "transition-popper" : undefined;
+  //   const canBeOpen = open && Boolean(anchorEl);
+  //   const id = canBeOpen ? "transition-popper" : undefined;
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Item Name</TableCell>
-            <TableCell align="right">Action</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
+    <>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow style={{ backgroundColor: "#e3e2e2", color: "white" }}>
+              <TableCell>Item Name</TableCell>
+              <TableCell align="right">Action</TableCell>
+            </TableRow>
+          </TableHead>
 
-              <StyledTableCell align="right">
-                <div className="mx-2">
-                  <MoreHorizIcon
-                    fontSize="small"
-                    id={id}
-                    onClick={handleClick}
-                  />
-                  <Popper
-                    placement="left"
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    transition
-                  >
-                    {({ TransitionProps }) => (
-                      <Fade {...TransitionProps} timeout={350}>
-                        <Box
-                          sx={{
-                            border: 1,
-                            p: 0,
-                            bgcolor: "background.paper",
-                            borderRadius: "1rem",
-                          }}
-                        >
-                          <List>
-                            <ListItem disablePadding>
-                              <ListItemButton>
-                                <ListItemIcon>
-                                  <Visibility className="text-success" />
-                                </ListItemIcon>
-                                <ListItemText primary="view" />
-                              </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                              <ListItemButton>
-                                <ListItemIcon>
-                                  <i className="fa-regular fa-pen-to-square text-success"></i>{" "}
-                                </ListItemIcon>
-                                <ListItemText primary="Edit" />
-                              </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                              <ListItemButton>
-                                <ListItemIcon>
-                                  <DeleteOutlineIcon className="text-success" />
-                                </ListItemIcon>
-                                <ListItemText primary="Delete" />
-                              </ListItemButton>
-                            </ListItem>
-                          </List>
-                        </Box>
-                      </Fade>
-                    )}
-                  </Popper>
-                </div>
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          <TableBody className="text-center"></TableBody>
+          {props.categoriesList ? (
+            <TableBody>
+              {props.categoriesList.map((row) => (
+                <StyledTableRow key={row.id}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.name}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.modificationDate}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          ) : (
+            <div className="text-center">
+              <img src={noData} />
+            </div>
+          )}
+        </Table>
+      </TableContainer>
+    </>
   );
 }

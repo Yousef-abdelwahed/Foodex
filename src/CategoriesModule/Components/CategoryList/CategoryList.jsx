@@ -1,5 +1,5 @@
 /** @format */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { InputAdornment, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
@@ -15,12 +15,13 @@ import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import CategoryTable from "./CategoryTable";
-import { useEffect } from "react";
+import { CircularProgress } from "@mui/material";
+
 const CategoryList = () => {
   const [age, setAge] = useState("");
   const [show, setShow] = useState(false);
-  const [categories, setCategories] = useState([]);
-
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { basUrl, headerAuth } = useContext(AuthContext);
 
   const {
@@ -32,7 +33,7 @@ const CategoryList = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleCategory = (data) => {
+  const handleSetCategory = (data) => {
     axios
       .post(`${basUrl}Category/`, data, {
         headers: {
@@ -40,15 +41,34 @@ const CategoryList = () => {
         },
       })
       .then((response) => {
-        let data = response.data;
-        setCategories(data);
+        // let data = response.data;
+        handleClose();
+        getCategories();
       })
-      .error((error) => console.log(error));
+      .catch((error) => console.log(error));
   };
+  const getCategories = () => {
+    axios
+      .get(`${basUrl}Category/?pageSize=10&pageNumber=1`, {
+        headers: {
+          Authorization: headerAuth,
+        },
+      })
+      .then((response) => {
+        setCategoriesList(response.data.data);
+        setLoading(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    getCategories();
+  }, []);
+
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-  console.log(categories);
   return (
     <div className="Category-list">
       <div className="d-flex justify-content-between">
@@ -135,7 +155,7 @@ const CategoryList = () => {
           <Modal.Header closeButton>
             <Modal.Title>Add Category</Modal.Title>
           </Modal.Header>
-          <Form onSubmit={handleSubmit(handleCategory)}>
+          <Form onSubmit={handleSubmit(handleSetCategory)}>
             <Modal.Body>
               <Form.Control placeholder="First name" {...register("name")} />
             </Modal.Body>
@@ -148,8 +168,11 @@ const CategoryList = () => {
         </Modal>
       </div>
       <div className="recipes-table my-3">
-        <CategoryTable />
-        {/* <RecipesTable /> */}
+        {loading ? (
+          <CategoryTable categoriesList={categoriesList} />
+        ) : (
+          <CircularProgress color="success" />
+        )}
       </div>
     </div>
   );
