@@ -51,10 +51,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function RecipesTable() {
+export default function CategoryTable() {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     setOpen((previousOpen) => !previousOpen);
@@ -69,12 +69,7 @@ export default function RecipesTable() {
         <TableHead>
           <TableRow>
             <TableCell>Item Name</TableCell>
-            <TableCell align="right">Image</TableCell>
-            <TableCell align="right">Price&nbsp;(EGP)</TableCell>
-            <TableCell align="right">Description</TableCell>
-            <TableCell align="right">Tag</TableCell>
-            <TableCell align="right">Category</TableCell>
-            <TableCell align="right"> </TableCell>
+            <TableCell align="right">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -84,10 +79,7 @@ export default function RecipesTable() {
                 {row.name}
               </StyledTableCell>
               <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
+
               <StyledTableCell align="right">
                 <div className="mx-2">
                   <MoreHorizIcon

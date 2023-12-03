@@ -1,17 +1,14 @@
 /** @format */
 import logo from "../../../assets/images/8c008bab0c67b666a9ccda1c84f11215.png";
 
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
-import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Navbar from "react-bootstrap/Navbar";
 
 const NavCompoenet = (adminData) => {
   let data = adminData;
-  // const x = <SearchIcon fontSize="small" />;
   return (
     <>
       <Navbar className="bg-body-tertiary py-2 rounded-3">
@@ -34,7 +31,7 @@ const NavCompoenet = (adminData) => {
                 />
               </Navbar.Brand>
             </div>
-            <Navbar.Text>{"data.adminData.userName"}</Navbar.Text>
+            <Navbar.Text>{data?.adminData?.userName}</Navbar.Text>
             <div className="mx-3">
               <NavDropdown title={" "} id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

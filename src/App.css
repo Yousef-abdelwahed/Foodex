@@ -44,12 +44,6 @@ body {
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  /* height: 20.1875rem; */
-
-  /* width: 100%; */
-  /* object-fit: cover; */
-
-  /* border-radius: 2rem; */
 }
 .header-section h1 {
   font-size: 2.5rem;
@@ -74,12 +68,6 @@ body {
 .user-pic {
   background-color: rgba(244, 206, 155, 1);
 }
-
-/* recipes */
-.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
-  padding: 8.5px 14px !important;
-  top: -7 !important;
-}
-.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
-  top: -7 !important;
+/* Modals */
+.modal-dialog-centered {
 }

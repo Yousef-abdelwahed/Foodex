@@ -3,35 +3,23 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import "./App.css";
+import ForgetPassword from "./AuthModule/Components/ForgetPassword/ForgetPassword";
+import Login from "./AuthModule/Components/Login/Login";
+import Register from "./AuthModule/Components/Register/Register";
+import ResetPassword from "./AuthModule/Components/ResetPassword/ResetPassword";
+import ResetPasswordRequest from "./AuthModule/Components/ResetPasswordRequest/ResetPasswordRequest";
+import CategoryList from "./CategoriesModule/Components/CategoryList/CategoryList";
+import Home from "./HomeModule/Components/Home";
+import RecipesList from "./RecipesModule/Components/RecipesList/RecipesList";
+import AuthLayout from "./SharedModule/Components/AuthLayout/AuthLayout";
 import MasterLayout from "./SharedModule/Components/MasterLayout/MasterLayout";
 import NotFound from "./SharedModule/Components/NotFound/NotFound";
-import Home from "./HomeModule/Components/Home";
 import UserList from "./UsersModule/Components/UserList/UserList";
-import RecipesList from "./RecipesModule/Components/RecipesList/RecipesList";
-import CategoryList from "./CategoriesModule/Components/CategoryList/CategoryList";
-import AuthLayout from "./SharedModule/Components/AuthLayout/AuthLayout";
-import Login from "./AuthModule/Components/Login/Login";
-import ForgetPassword from "./AuthModule/Components/ForgetPassword/ForgetPassword";
-import Register from "./AuthModule/Components/Register/Register";
-import { useEffect, useState } from "react";
-// import ProtectedRoute from "./SharedModule/Components/ProtectedRoute/ProtectedRoute";
-import { jwtDecode } from "jwt-decode";
-import ResetPasswordRequest from "./AuthModule/Components/ResetPasswordRequest/ResetPasswordRequest";
-import ResetPassword from "./AuthModule/Components/ResetPassword/ResetPassword";
+import { useContext } from "react";
+import { AuthContext } from "./Context/AuthContextProvider";
 
 function App() {
-  const [adminData, setAdminData] = useState(null);
-
-  let saveAdminData = () => {
-    const token = localStorage.getItem("adminToken");
-    let decodedToken = jwtDecode(token);
-    setAdminData(decodedToken);
-  };
-  useEffect(() => {
-    if (localStorage.getItem("adminToken")) {
-      saveAdminData();
-    }
-  }, []);
+  let { adminData, saveAdminData } = useContext(AuthContext);
   const routes = createBrowserRouter([
     {
       path: "/dashboard",
@@ -51,7 +39,10 @@ function App() {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Login saveAdminData={saveAdminData} /> },
-        { path: "login", element: <Login saveAdminData={saveAdminData} /> },
+        {
+          path: "login",
+          element: <Login saveAdminData={saveAdminData} />,
+        },
 
         { path: "forget-password", element: <ForgetPassword /> },
         { path: "register", element: <Register /> },
