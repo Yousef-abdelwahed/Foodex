@@ -1,51 +1,87 @@
 /** @format */
-import { useState, useEffect } from "react";
-import { InputAdornment, TextField } from "@mui/material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import SearchIcon from "@mui/icons-material/Search";
+import { CircularProgress, InputAdornment, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import SearchIcon from "@mui/icons-material/Search";
-import { Button } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
-import { useContext } from "react";
-import { AuthContext } from "../../../Context/AuthContextProvider";
-import Form from "react-bootstrap/Form";
-import { useForm } from "react-hook-form";
 import axios from "axios";
-import CategoryTable from "./CategoryTable";
-import { CircularProgress } from "@mui/material";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { useContext, useEffect, useState } from "react";
+import { Button, ToastContainer } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import { useForm } from "react-hook-form";
+import { AuthContext } from "../../../Context/AuthContextProvider";
 import noData from "../../../assets/images/noData.png";
+import CategoryTable from "./CategoryTable";
+import { toast } from "react-toastify";
 
 const CategoryList = () => {
   const { basUrl, headerAuth } = useContext(AuthContext);
   const [age, setAge] = useState("");
-  const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
   const [categoriesList, setCategoriesList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [modalState, setModalState] = useState("Closed");
+  const [isloading, setisLoading] = useState(false);
 
+  const [modalState, setModalState] = useState("Closed");
+  const [itemId, setItemId] = useState(0);
   const {
     handleSubmit,
     register,
     formState: { error },
   } = useForm();
-
+  {
+    /*Show Modals */
+  }
   const showAddModal = () => setModalState("modal-add");
   const showDeleteModal = (id) => {
-    handleDeleteCategory(id);
+    setItemId(id);
     setModalState("modal-delete");
   };
+  const showUpdateModal = (data) => {
+    console.log(data.id);
+    setModalState("modal-update");
+  };
+
+  {
+    /*Close Modals */
+  }
   const handleClose = () => setModalState("Closed");
   {
-    /*handle delete category */
+    /*Handle API category */
   }
+
   const handleDeleteCategory = () => {
-    alert("d");
+    axios
+      .delete(`${basUrl}Category/${itemId}`, {
+        headers: { Authorization: headerAuth },
+      })
+      .then((response) => {
+        getCategories();
+        handleClose();
+        toast("Deleted Item Successfully", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-  const handleSetCategory = (data) => {
+  {
+    /*POSt category */
+  }
+
+  const handlePostCategory = (data) => {
     axios
       .post(`${basUrl}Category/`, data, {
         headers: {
@@ -53,12 +89,14 @@ const CategoryList = () => {
         },
       })
       .then((response) => {
-        // let data = response.data;
         handleClose();
         getCategories();
       })
       .catch((error) => console.log(error));
   };
+  {
+    /*Get category */
+  }
   const getCategories = () => {
     axios
       .get(`${basUrl}Category/?pageSize=10&pageNumber=1`, {
@@ -74,6 +112,33 @@ const CategoryList = () => {
         console.log(error);
       });
   };
+  {
+    /*Update api */
+  }
+  const handleUpdateCategory = (data) => {
+    console.log(data);
+    // axios
+    //   .put(`${basUrl}Category/${itemId}`, data, {
+    //     headers: { Authorization: headerAuth },
+    //   })
+    //   .then((response) => {
+    //     getCategories();
+    //     handleClose();
+    //     toast("Update Item Successfully", {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //       theme: "colored",
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+  };
   useEffect(() => {
     getCategories();
   }, []);
@@ -83,14 +148,11 @@ const CategoryList = () => {
   };
   return (
     <div className="Category-list">
+      <ToastContainer />
       <div className="d-flex justify-content-between">
         <div>
           <h4>Categories Table Details</h4>
           <p>You can check all details</p>
-          <DeleteOutlineIcon
-            className="text-success"
-            onClick={showDeleteModal}
-          />
         </div>
         <div>
           <Button
@@ -98,11 +160,10 @@ const CategoryList = () => {
             variant="success"
             size="lg"
             style={{ width: "15rem" }}
-            // disabled={isLoading}
+            // disabled={show}
             onClick={showAddModal}
           >
-            Add New Item
-            {/* {isLoading ? "Loading…" : `Add New Item`} */}
+            {`Add New Category`}
           </Button>
         </div>
       </div>
@@ -172,20 +233,45 @@ const CategoryList = () => {
           <Modal.Header closeButton>
             <Modal.Title>Add Category</Modal.Title>
           </Modal.Header>
-          <Form onSubmit={handleSubmit(handleSetCategory)}>
+          <Form onSubmit={handleSubmit(handlePostCategory)}>
             <Modal.Body>
               <Form.Control placeholder="First name" {...register("name")} />
             </Modal.Body>
             <Modal.Footer>
               <Button variant="success" type="submit" onClick={handleClose}>
-                Save Changes
+                Save
               </Button>
             </Modal.Footer>
           </Form>
         </Modal>
       </div>
-      {/* Delet Modal */}
-      <div className="add-item ">
+      {/* Update  Modal */}
+
+      <div className="update-item ">
+        <Modal
+          show={modalState === "modal-update"}
+          onHide={handleClose}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Update Category</Modal.Title>
+          </Modal.Header>
+          <Form onSubmit={handleSubmit(handleUpdateCategory)}>
+            <Modal.Body>
+              <Form.Control placeholder="First name" {...register("name")} />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="success" type="submit" onClick={handleClose}>
+                Save
+              </Button>
+            </Modal.Footer>
+          </Form>
+        </Modal>
+      </div>
+      {/* Delete Modal */}
+      <div className="delete-item ">
         <Modal
           show={modalState === "modal-delete"}
           onHide={handleClose}
@@ -196,7 +282,7 @@ const CategoryList = () => {
           <Modal.Header closeButton>
             {/* <Modal.Title>Delete Category</Modal.Title> */}
           </Modal.Header>
-          <Form onSubmit={handleSubmit(handleSetCategory)}>
+          <Form onSubmit={handleSubmit(handlePostCategory)}>
             <Modal.Body>
               <div className="text-center">
                 <img src={noData} alt="Delete Category" />
@@ -225,6 +311,7 @@ const CategoryList = () => {
             categoriesList={categoriesList}
             showAddModal={showAddModal}
             showDeleteModal={showDeleteModal}
+            showUpdateModal={showUpdateModal}
           />
         ) : (
           <CircularProgress color="success" />

@@ -1,6 +1,7 @@
 /** @format */
 
 import { Visibility } from "@mui/icons-material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Box from "@mui/material/Box";
 import Fade from "@mui/material/Fade";
@@ -20,7 +21,6 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import noData from "../../../assets/images/nodata.png";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 // function createData(name, calories, fat, carbs, protein) {
 //   return { name, calories, fat, carbs, protein };
 // }
@@ -117,7 +117,11 @@ export default function CategoryTable(props) {
                                     <ListItemText primary="view" />
                                   </ListItemButton>
                                 </ListItem>
-                                <ListItem disablePadding>
+                                {/* Update list */}
+                                <ListItem
+                                  disablePadding
+                                  onClick={() => props.showUpdateModal(row.id)}
+                                >
                                   <ListItemButton>
                                     <ListItemIcon>
                                       <i className="fa-regular fa-pen-to-square text-success"></i>

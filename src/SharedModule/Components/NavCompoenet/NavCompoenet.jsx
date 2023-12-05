@@ -13,11 +13,11 @@ const NavCompoenet = (adminData) => {
     <>
       <Navbar className="bg-body-tertiary py-2 rounded-3">
         <Container className="">
-          <Form.Control
+          {/* <Form.Control
             type="text"
             placeholder="Search Here"
             className=" mr-sm-2 mx-3 rounded-pill"
-          />
+          /> */}
           <Navbar.Toggle />
           <Navbar.Collapse className="">
             <div className="ms-auto ">
