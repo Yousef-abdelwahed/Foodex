@@ -21,6 +21,10 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import noData from "../../../assets/images/nodata.png";
+import Button from "react-bootstrap/Button";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Popover from "react-bootstrap/Popover";
+import { Image, Tooltip } from "react-bootstrap";
 // function createData(name, calories, fat, carbs, protein) {
 //   return { name, calories, fat, carbs, protein };
 // }
@@ -57,6 +61,7 @@ export default function CategoryTable(props) {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     setOpen((previousOpen) => !previousOpen);
+    console.log(event.currentTarget);
   };
 
   const canBeOpen = open && Boolean(anchorEl);
@@ -68,8 +73,8 @@ export default function CategoryTable(props) {
           <TableHead>
             <TableRow style={{ backgroundColor: "#e3e2e2", color: "white" }}>
               <TableCell>Item Name</TableCell>
-              <TableCell align="right">Action</TableCell>
-              <TableCell align="right"></TableCell>
+              <TableCell align="center">Action</TableCell>
+              <TableCell align="center"></TableCell>
             </TableRow>
           </TableHead>
 
@@ -79,72 +84,108 @@ export default function CategoryTable(props) {
               {props.categoriesList.map((row, index) => (
                 <StyledTableRow key={index}>
                   <StyledTableCell component="th" scope="row">
-                    {row.name}
+                    {row.name}{" "}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="center">
                     {row.modificationDate}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+
+                  <StyledTableCell align="center">
                     <div className="mx-2">
-                      <MoreHorizIcon
+                      {/* <MoreHorizIcon
                         fontSize="small"
                         id={id}
                         onClick={handleClick}
-                      />
-                      <Popper
+                      /> */}
+                      {/* <Popper
                         placement="left"
                         id={id}
                         open={open}
                         anchorEl={anchorEl}
                         transition
-                      >
-                        {({ TransitionProps }) => (
-                          <Fade {...TransitionProps} timeout={350}>
-                            <Box
-                              sx={{
-                                border: 1,
-                                p: 0,
-                                bgcolor: "background.paper",
-                                borderRadius: "1rem",
-                              }}
-                            >
-                              <List>
-                                <ListItem disablePadding>
-                                  <ListItemButton>
-                                    <ListItemIcon>
-                                      <Visibility className="text-success" />
-                                    </ListItemIcon>
-                                    <ListItemText primary="view" />
-                                  </ListItemButton>
-                                </ListItem>
-                                {/* Update list */}
-                                <ListItem
-                                  disablePadding
-                                  onClick={() => props.showUpdateModal(row.id)}
-                                >
-                                  <ListItemButton>
-                                    <ListItemIcon>
+                      > */}
+                      {/* {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                          <Box
+                            sx={{
+                              border: 1,
+                              p: 0,
+                              bgcolor: "background.paper",
+                              borderRadius: "1rem",
+                            }} */}
+                      {/* > */}
+                      <List>
+                        {/* <ListItem disablePadding>
+                          <ListItemButton>
+                            <ListItemIcon>
+                              <Visibility className="text-success" />
+                            </ListItemIcon>
+                            <ListItemText primary="view" />
+                          </ListItemButton>
+                        </ListItem> */}
+                        {/* Update list */}
+                        <ListItem disablePadding>
+                          <OverlayTrigger
+                            trigger="click"
+                            placement="left"
+                            overlay={
+                              <Popover id={`popover-positioned-left`}>
+                                {/* <Popover.Header as="h3">{`Popover left`}</Popover.Header> */}
+                                <Popover.Body>
+                                  <ListItem
+                                    disablePadding
+                                    onClick={() => props.showUpdateModal(row)}
+                                  >
+                                    <strong>
+                                      {" "}
                                       <i className="fa-regular fa-pen-to-square text-success"></i>
-                                    </ListItemIcon>
-                                    <ListItemText primary="Edit" />
-                                  </ListItemButton>
-                                </ListItem>
-                                <ListItem
-                                  disablePadding
-                                  onClick={() => props.showDeleteModal(row.id)}
-                                >
-                                  <ListItemButton>
-                                    <ListItemIcon>
+                                      <span className="text-success mx-3">
+                                        Edit
+                                      </span>{" "}
+                                    </strong>
+                                  </ListItem>
+                                  <ListItem
+                                    disablePadding
+                                    className="my-2"
+                                    onClick={() =>
+                                      props.showDeleteModal(row.id)
+                                    }
+                                  >
+                                    <strong>
                                       <DeleteOutlineIcon className="text-success" />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Delete" />
-                                  </ListItemButton>
-                                </ListItem>
-                              </List>
-                            </Box>
-                          </Fade>
-                        )}
-                      </Popper>
+                                      <span className="text-success mx-2 ">
+                                        Delete
+                                      </span>
+                                    </strong>
+                                  </ListItem>
+                                </Popover.Body>
+                              </Popover>
+                            }
+                          >
+                            <MoreHorizIcon
+                              fontSize="small"
+                              id={id}
+                              // onClick={handleClick}
+                            />
+                            {/* <Button variant="secondary">Popover on left</Button> */}
+                          </OverlayTrigger>
+                        </ListItem>
+                        {/* <ListItem
+                          disablePadding
+                          onClick={() => props.showDeleteModal(row.id)}
+                        >
+                          <ListItemButton>
+                            <ListItemIcon>
+                              <DeleteOutlineIcon className="text-success" />
+                            </ListItemIcon>
+                            <ListItemText primary="Delete" />
+                          </ListItemButton>
+                        </ListItem> */}
+                      </List>
+                      {/* </Box>
+                        </Fade>
+                      )} */}
+                      {/* </Popper> */}
                     </div>
                   </StyledTableCell>
                 </StyledTableRow>

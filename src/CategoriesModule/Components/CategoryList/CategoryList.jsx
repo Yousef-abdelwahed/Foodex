@@ -1,7 +1,6 @@
 /** @format */
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import SearchIcon from "@mui/icons-material/Search";
-import { CircularProgress, InputAdornment, TextField } from "@mui/material";
+import { InputAdornment, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -9,29 +8,30 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { Button, ToastContainer } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { AuthContext } from "../../../Context/AuthContextProvider";
 import noData from "../../../assets/images/noData.png";
 import CategoryTable from "./CategoryTable";
-import { toast } from "react-toastify";
-
 const CategoryList = () => {
   const { basUrl, headerAuth } = useContext(AuthContext);
   const [age, setAge] = useState("");
   // const [show, setShow] = useState(false);
   const [categoriesList, setCategoriesList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [isloading, setisLoading] = useState(false);
 
   const [modalState, setModalState] = useState("Closed");
   const [itemId, setItemId] = useState(0);
   const {
     handleSubmit,
     register,
-    formState: { error },
+    setValue,
+    formState: { errors },
   } = useForm();
   {
     /*Show Modals */
@@ -42,6 +42,7 @@ const CategoryList = () => {
     setModalState("modal-delete");
   };
   const showUpdateModal = (data) => {
+    setItemId(data.id);
     console.log(data.id);
     setModalState("modal-update");
   };
@@ -89,8 +90,18 @@ const CategoryList = () => {
         },
       })
       .then((response) => {
-        handleClose();
         getCategories();
+        toast.success("Update Item Successfully", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        handleClose();
       })
       .catch((error) => console.log(error));
   };
@@ -106,7 +117,7 @@ const CategoryList = () => {
       })
       .then((response) => {
         setCategoriesList(response.data.data);
-        setLoading(true);
+        // setLoading(true);
       })
       .catch((error) => {
         console.log(error);
@@ -116,28 +127,27 @@ const CategoryList = () => {
     /*Update api */
   }
   const handleUpdateCategory = (data) => {
-    console.log(data);
-    // axios
-    //   .put(`${basUrl}Category/${itemId}`, data, {
-    //     headers: { Authorization: headerAuth },
-    //   })
-    //   .then((response) => {
-    //     getCategories();
-    //     handleClose();
-    //     toast("Update Item Successfully", {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "colored",
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    axios
+      .put(`${basUrl}Category/${itemId}`, data, {
+        headers: { Authorization: headerAuth },
+      })
+      .then((response) => {
+        getCategories();
+        toast("Update Item Successfully", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        handleClose();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   useEffect(() => {
     getCategories();
@@ -235,7 +245,10 @@ const CategoryList = () => {
           </Modal.Header>
           <Form onSubmit={handleSubmit(handlePostCategory)}>
             <Modal.Body>
-              <Form.Control placeholder="First name" {...register("name")} />
+              <Form.Control
+                placeholder="Please Enter category name"
+                {...register("name", { required: true })}
+              />
             </Modal.Body>
             <Modal.Footer>
               <Button variant="success" type="submit" onClick={handleClose}>
@@ -260,10 +273,17 @@ const CategoryList = () => {
           </Modal.Header>
           <Form onSubmit={handleSubmit(handleUpdateCategory)}>
             <Modal.Body>
-              <Form.Control placeholder="First name" {...register("name")} />
+              <Form.Control
+                type="text"
+                placeholder="Enter Category name"
+                {...register("name", { required: true })}
+              />
+              {errors.name && errors.name?.type === "required" && (
+                <span className="text-danger">this is required </span>
+              )}
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="success" type="submit" onClick={handleClose}>
+              <Button variant="success" type="submit">
                 Save
               </Button>
             </Modal.Footer>
@@ -282,7 +302,7 @@ const CategoryList = () => {
           <Modal.Header closeButton>
             {/* <Modal.Title>Delete Category</Modal.Title> */}
           </Modal.Header>
-          <Form onSubmit={handleSubmit(handlePostCategory)}>
+          <Form onSubmit={handleSubmit(handleDeleteCategory)}>
             <Modal.Body>
               <div className="text-center">
                 <img src={noData} alt="Delete Category" />
@@ -306,16 +326,15 @@ const CategoryList = () => {
         </Modal>
       </div>
       <div className="recipes-table my-3">
-        {loading ? (
-          <CategoryTable
-            categoriesList={categoriesList}
-            showAddModal={showAddModal}
-            showDeleteModal={showDeleteModal}
-            showUpdateModal={showUpdateModal}
-          />
-        ) : (
+        {/* {loading ? ( */}
+        <CategoryTable
+          categoriesList={categoriesList}
+          showDeleteModal={showDeleteModal}
+          showUpdateModal={showUpdateModal}
+        />
+        {/* ) : (
           <CircularProgress color="success" />
-        )}
+        )} */}
       </div>
     </div>
   );
