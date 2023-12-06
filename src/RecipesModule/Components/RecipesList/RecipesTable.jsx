@@ -21,6 +21,10 @@ import { styled } from "@mui/material/styles";
 import { useState } from "react";
 
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { OverlayTrigger, Popover } from "react-bootstrap";
+
+import noData from "../../../assets/images/nodata.png";
+
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
@@ -51,10 +55,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function RecipesTable() {
+export default function RecipesTable(props) {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     setOpen((previousOpen) => !previousOpen);
@@ -68,80 +72,83 @@ export default function RecipesTable() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Item Name</TableCell>
-            <TableCell align="right">Image</TableCell>
-            <TableCell align="right">Price&nbsp;(EGP)</TableCell>
-            <TableCell align="right">Description</TableCell>
-            <TableCell align="right">Tag</TableCell>
-            <TableCell align="right">Category</TableCell>
-            <TableCell align="right"> </TableCell>
+            <TableCell align="center">Item Name</TableCell>
+            <TableCell align="center">Image</TableCell>
+            <TableCell align="center">Price&nbsp;(EGP)</TableCell>
+            <TableCell align="center">Description</TableCell>
+            <TableCell align="center">Tag</TableCell>
+            <TableCell align="center">Category</TableCell>
+            <TableCell align="center"> </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
+          {props.recipesList.map((row) => (
+            <StyledTableRow key={row.id}>
+              <StyledTableCell align="center" component="th" scope="row">
                 {row.name}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
-              <StyledTableCell align="right">
-                <div className="mx-2">
-                  <MoreHorizIcon
-                    fontSize="small"
-                    id={id}
-                    onClick={handleClick}
+              <StyledTableCell align="center">
+                <div style={{ width: "8rem" }}>
+                  <img
+                    className="w-100"
+                    src={
+                      row?.imagePath ? props.baseImg + row?.imagePath : noData
+                    }
+                    alt="recipes image"
                   />
-                  <Popper
-                    placement="left"
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    transition
-                  >
-                    {({ TransitionProps }) => (
-                      <Fade {...TransitionProps} timeout={350}>
-                        <Box
-                          sx={{
-                            border: 1,
-                            p: 0,
-                            bgcolor: "background.paper",
-                            borderRadius: "1rem",
-                          }}
-                        >
-                          <List>
-                            <ListItem disablePadding>
-                              <ListItemButton>
-                                <ListItemIcon>
-                                  <Visibility className="text-success" />
-                                </ListItemIcon>
-                                <ListItemText primary="view" />
-                              </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                              <ListItemButton>
-                                <ListItemIcon>
-                                  <i className="fa-regular fa-pen-to-square text-success"></i>{" "}
-                                </ListItemIcon>
-                                <ListItemText primary="Edit" />
-                              </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                              <ListItemButton>
-                                <ListItemIcon>
+                </div>
+              </StyledTableCell>
+              <StyledTableCell align="center">{row?.price}</StyledTableCell>
+              <StyledTableCell align="center">
+                {row?.description}
+              </StyledTableCell>
+              <StyledTableCell align="center">{row?.tag?.id}</StyledTableCell>
+              <StyledTableCell align="center">
+                {row?.category[0]?.name}
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <div className="mx-2">
+                  <List>
+                    <ListItem disablePadding>
+                      <OverlayTrigger
+                        trigger="click"
+                        placement="left"
+                        overlay={
+                          <Popover id={`popover-positioned-left`}>
+                            {/* <Popover.Header as="h3">{`Popover left`}</Popover.Header> */}
+                            <Popover.Body>
+                              <ListItem
+                                disablePadding
+                                // onClick={() => props.showUpdateModal(row)}
+                              >
+                                <strong>
+                                  {" "}
+                                  <i className="fa-regular fa-pen-to-square text-success"></i>
+                                  <span className="text-success mx-3">
+                                    Edit
+                                  </span>{" "}
+                                </strong>
+                              </ListItem>
+                              <ListItem
+                                disablePadding
+                                className="my-2"
+                                onClick={() => props.showDeleteModal(row.id)}
+                              >
+                                <strong>
                                   <DeleteOutlineIcon className="text-success" />
-                                </ListItemIcon>
-                                <ListItemText primary="Delete" />
-                              </ListItemButton>
-                            </ListItem>
-                          </List>
-                        </Box>
-                      </Fade>
-                    )}
-                  </Popper>
+                                  <span className="text-success mx-2 ">
+                                    Delete
+                                  </span>
+                                </strong>
+                              </ListItem>
+                            </Popover.Body>
+                          </Popover>
+                        }
+                      >
+                        <MoreHorizIcon fontSize="small" id={id} />
+                      </OverlayTrigger>
+                    </ListItem>
+                  </List>
                 </div>
               </StyledTableCell>
             </StyledTableRow>

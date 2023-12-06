@@ -4,6 +4,7 @@ import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext(null);
 const basUrl = "https://upskilling-egypt.com:443/api/v1/";
+const baseImg = "https://upskilling-egypt.com:443/";
 const headerAuth = `Bearer ${localStorage.getItem("adminToken")}`;
 const AuthContextProvider = (props) => {
   const [adminData, setAdminData] = useState(null);
@@ -20,7 +21,7 @@ const AuthContextProvider = (props) => {
   }, []);
   return (
     <AuthContext.Provider
-      value={{ adminData, saveAdminData, basUrl, headerAuth }}
+      value={{ adminData, saveAdminData, basUrl, headerAuth, baseImg }}
     >
       {props.children}
     </AuthContext.Provider>
