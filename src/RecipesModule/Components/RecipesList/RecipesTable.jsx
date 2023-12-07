@@ -77,7 +77,7 @@ export default function RecipesTable(props) {
                 {row.name}
               </StyledTableCell>
               <StyledTableCell align="center">
-                <div style={{ width: "8rem" }}>
+                <div style={{ width: "7rem" }}>
                   <img
                     className="w-100"
                     src={
@@ -108,11 +108,23 @@ export default function RecipesTable(props) {
                             <Popover.Body>
                               <ListItem
                                 disablePadding
+                                onClick={() => props.showViewModal(row)}
+                              >
+                                <strong>
+                                  <Visibility className="text-success" />
+                                  <span className="text-success mx-3">
+                                    View
+                                  </span>{" "}
+                                </strong>
+                              </ListItem>
+                              <ListItem
+                                className="my-2"
+                                disablePadding
                                 onClick={() => props.showUpdateModal(row)}
                               >
                                 <strong>
                                   {" "}
-                                  <i className="fa-regular fa-pen-to-square text-success"></i>
+                                  <i className="fa-regular fa-pen-to-square text-success mx-1 fw-bold fs-5"></i>
                                   <span className="text-success mx-3">
                                     Edit
                                   </span>{" "}
@@ -125,7 +137,7 @@ export default function RecipesTable(props) {
                               >
                                 <strong>
                                   <DeleteOutlineIcon className="text-success" />
-                                  <span className="text-success mx-2 ">
+                                  <span className="text-success mx-3  ">
                                     Delete
                                   </span>
                                 </strong>

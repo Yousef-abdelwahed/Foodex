@@ -22,15 +22,19 @@ import { TostContext } from "../../../Context/ToastContextProvider";
 const RecipesList = () => {
   const { getToastValue } = useContext(TostContext);
   const { basUrl, headerAuth, baseImg } = useContext(AuthContext);
+
   const [recipesList, setRecipesList] = useState([]);
   const [categoriesList, setCategoriesList] = useState([]);
   const [tags, setTags] = useState([]);
+  const [pageArray, setPageArray] = useState([]);
 
+  const [itemId, setItemId] = useState(0);
+  const [showRecipes, setShowRecipes] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [itemId, setItemId] = useState(0);
   const [show, setShow] = useState("Closed");
   const [age, setAge] = useState("");
+
   const [recipesKeys, setRecipesKeys] = useState([
     "name",
     "price",
@@ -70,7 +74,13 @@ const RecipesList = () => {
     recipesKeys.map((key) => setValue(key, ""));
     setShow("modal-add");
   };
+  const showViewModal = (data) => {
+    setShow("modal-view");
+    setShowRecipes(data);
+  };
   const showUpdateModal = (data) => {
+    setShow("modal-update");
+
     setItemId(data.id);
     // getAllTags();
     // getAllCategories();
@@ -81,7 +91,7 @@ const RecipesList = () => {
     setValue("description", data.description);
     setValue("tagId", data.tag.id);
     setValue("categoriesId", data.category[0].id);
-    setValue("recipeImage", data.imagePath);
+    // setValue("recipeImage", data.imagePath);
 
     // recipesKeys.map((key) => {
     //   setValue(
@@ -93,8 +103,6 @@ const RecipesList = () => {
     //       : data.key
     //   );
     // });
-
-    setShow("modal-update");
   };
   const showDeleteModal = (id) => {
     setItemId(id);
@@ -121,14 +129,20 @@ const RecipesList = () => {
     /*Get recipes */
   }
 
-  const getRecipes = () => {
+  const getRecipes = (pageNo) => {
     axios
-      .get(`${basUrl}Recipe/?pageSize=10&pageNumber=1`, {
+      .get(`${basUrl}Recipe/`, {
         headers: { Authorization: headerAuth },
+        params: { pageSize: 5, pageNumber: pageNo },
       })
-      .then((request) => {
-        setRecipesList(request.data.data);
+      .then((response) => {
         setIsLoading(true);
+        setPageArray(
+          Array(response.data.totalNumberOfPages)
+            .fill()
+            .map((_, i) => i + 1)
+        );
+        setRecipesList(response.data.data);
       })
       .catch((error) => console.log(error));
   };
@@ -209,7 +223,7 @@ const RecipesList = () => {
       });
   };
   useEffect(() => {
-    getRecipes();
+    getRecipes(1);
     getAllCategories();
     getAllTags();
   }, []);
@@ -600,9 +614,9 @@ const RecipesList = () => {
           </Form>
         </Modal>
       </div>
-      <div className="view-item ">
+      <div className="view-item">
         <Modal
-          show={show === "modal-delete"}
+          show={show === "modal-view"}
           onHide={handleClose}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
@@ -613,13 +627,44 @@ const RecipesList = () => {
           </Modal.Header>
           <Form onSubmit={handleSubmit(handleDeleteRecipes)}>
             <Modal.Body>
-              <div className="text-center">
-                <img src={noData} alt="Delete Category" />
-                <p className="fs-2 fw-bold">Delete This Category</p>
-                <p className="text-muted ">
-                  are you sure you want to delete this item ? if you are sure
-                  just click on delete it
-                </p>
+              <div className=" d-flex align-items-center justify-content-center">
+                <div style={{ width: "12rem" }} className="m-auto ">
+                  <img
+                    className="w-100"
+                    src={
+                      showRecipes?.imagePath
+                        ? baseImg + showRecipes?.imagePath
+                        : noData
+                    }
+                    alt="Recipes Category"
+                  />
+                </div>
+                <div className="text-start col-md-6">
+                  <p className="fs-5 ">
+                    <span className="text-success ">name :</span>
+                    {showRecipes?.name}
+                  </p>
+                  <p className="fs-5 ">
+                    <span className="text-success ">price :</span>
+
+                    {showRecipes?.price}
+                  </p>
+                  <p className="fs-5 ">
+                    <span className="text-success ">description :</span>
+
+                    {showRecipes?.description}
+                  </p>
+                  <p className="fs-5  ">
+                    <span className="text-success ">category :</span>
+
+                    {showRecipes?.category[0].name}
+                  </p>
+                  <p className="fs-5 ">
+                    <span className="text-success ">tag :</span>
+
+                    {showRecipes?.tag.name}
+                  </p>
+                </div>
               </div>
             </Modal.Body>
             <Modal.Footer>
@@ -639,12 +684,28 @@ const RecipesList = () => {
           <RecipesTable
             showUpdateModal={showUpdateModal}
             showDeleteModal={showDeleteModal}
+            showViewModal={showViewModal}
             recipesList={recipesList}
             baseImg={baseImg}
           />
         ) : (
           <CircularProgress color="success" />
         )}
+      </div>
+      <div className=" ">
+        <nav aria-label="...">
+          <ul className="pagination pagination-md  justify-content-center">
+            {pageArray.map((page, index) => (
+              <li
+                onClick={() => getRecipes(page)}
+                key={index}
+                className={`page-item mx-1 cursor-pointer`}
+              >
+                <a className="page-link">{page}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </div>
   );

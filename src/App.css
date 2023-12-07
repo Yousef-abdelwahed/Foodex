@@ -71,3 +71,6 @@ body {
 /* Modals */
 .modal-dialog-centered {
 }
+.cursor-pointer {
+  cursor: pointer;
+}

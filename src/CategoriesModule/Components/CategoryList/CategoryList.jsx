@@ -24,6 +24,8 @@ const CategoryList = () => {
   const [age, setAge] = useState("");
   // const [show, setShow] = useState(false);
   const [categoriesList, setCategoriesList] = useState([]);
+  const [pageArray, setPageArray] = useState([]);
+
   const [loading, setLoading] = useState(false);
 
   const [modalState, setModalState] = useState("Closed");
@@ -32,7 +34,6 @@ const CategoryList = () => {
   const {
     handleSubmit,
     register,
-    // setValue,
     formState: { errors },
   } = useForm();
   {
@@ -67,7 +68,7 @@ const CategoryList = () => {
 
         getToastValue("Success", "Deleted category successfully ");
       })
-      .catch((error) => getToastValue("error", error.message));
+      .catch((error) => getToastValue("error", console.log(error.message)));
   };
   {
     /*POSt category */
@@ -90,15 +91,21 @@ const CategoryList = () => {
   {
     /*Get category */
   }
-  const getCategories = () => {
+  const getCategories = (pageNo) => {
     axios
-      .get(`${basUrl}Category/?pageSize=10&pageNumber=1`, {
+      .get(`${basUrl}Category/`, {
         headers: {
           Authorization: headerAuth,
         },
+        params: { pageSize: 5, pageNumber: pageNo },
       })
       .then((response) => {
         setCategoriesList(response.data.data);
+        setPageArray(
+          Array(response.data.totalNumberOfPages)
+            .fill()
+            .map((_, i) => i + 1)
+        );
         setLoading(true);
       })
       .catch((error) => getToastValue("error", error.message));
@@ -120,7 +127,7 @@ const CategoryList = () => {
       .catch((error) => getToastValue("error", error.message));
   };
   useEffect(() => {
-    getCategories();
+    getCategories(1);
   }, []);
 
   const handleChange = (event) => {
@@ -305,6 +312,21 @@ const CategoryList = () => {
         ) : (
           <CircularProgress color="success" />
         )}
+      </div>
+      <div className="">
+        <nav aria-label="...">
+          <ul className="pagination pagination-md justify-content-center">
+            {pageArray.map((page, index) => (
+              <li
+                onClick={() => getCategories(page)}
+                key={index}
+                className={`page-item mx-1 cursor-pointer `}
+              >
+                <a className="page-link cursor-pointer">{page}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </div>
   );
