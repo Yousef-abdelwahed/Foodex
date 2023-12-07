@@ -12,13 +12,13 @@ import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { AuthContext } from "../../../Context/AuthContextProvider";
+import { TostContext } from "../../../Context/ToastContextProvider";
 import noData from "../../../assets/images/noData.png";
 import CategoryTable from "./CategoryTable";
-import { TostContext } from "../../../Context/ToastContextProvider";
 const CategoryList = () => {
   const { basUrl, headerAuth } = useContext(AuthContext);
   const [age, setAge] = useState("");

@@ -25,17 +25,6 @@ import { OverlayTrigger, Popover } from "react-bootstrap";
 
 import noData from "../../../assets/images/nodata.png";
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -82,7 +71,7 @@ export default function RecipesTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.recipesList.map((row) => (
+          {props.recipesList?.map((row) => (
             <StyledTableRow key={row.id}>
               <StyledTableCell align="center" component="th" scope="row">
                 {row.name}
@@ -119,7 +108,7 @@ export default function RecipesTable(props) {
                             <Popover.Body>
                               <ListItem
                                 disablePadding
-                                // onClick={() => props.showUpdateModal(row)}
+                                onClick={() => props.showUpdateModal(row)}
                               >
                                 <strong>
                                   {" "}

@@ -7,6 +7,7 @@ import { Button, Form } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 
 const DeleteModal = (props) => {
+  console.log(props);
   return (
     <>
       <div className="delete-item ">
@@ -20,9 +21,7 @@ const DeleteModal = (props) => {
           <Modal.Header closeButton>
             {/* <Modal.Title>Delete Category</Modal.Title> */}
           </Modal.Header>
-          <Form
-          //   onSubmit={handleSubmit(handleDeleteCategory)}
-          >
+          <Form onSubmit={props.handleSubmit(props.handleDeleteRecipes)}>
             <Modal.Body>
               <div className="text-center">
                 <img src={noData} alt="Delete Category" />
@@ -37,7 +36,7 @@ const DeleteModal = (props) => {
               <Button
                 variant="outline-danger"
                 type="submit"
-                // onClick={handleDeleteCategory}
+                onClick={props.handleDeleteRecipes}
               >
                 Delete This Item
               </Button>

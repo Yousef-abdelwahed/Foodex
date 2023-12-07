@@ -17,6 +17,7 @@ import NotFound from "./SharedModule/Components/NotFound/NotFound";
 import UserList from "./UsersModule/Components/UserList/UserList";
 import { useContext } from "react";
 import { AuthContext } from "./Context/AuthContextProvider";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   let { adminData, saveAdminData } = useContext(AuthContext);
