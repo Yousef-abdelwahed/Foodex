@@ -27,6 +27,8 @@ const RecipesList = () => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [tags, setTags] = useState([]);
   const [pageArray, setPageArray] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const [getSearchCategory, setGetSearchCategory] = useState("");
 
   const [itemId, setItemId] = useState(0);
   const [showRecipes, setShowRecipes] = useState();
@@ -49,17 +51,43 @@ const RecipesList = () => {
     setValue,
     formState: { errors },
   } = useForm();
+  {/*Search by */}
+  const getCategoryValue = (e) => {
+    getRecipes(1, null, 
+          null, e.target.value);
+  };
+  const getTagValue = (e) => {
+    getRecipes(1, null, ,e.target.value
+          null);
+  };
+  const getAllCategories = () => {
+    axios
+      .get(
+        "https://upskilling-egypt.com:443/api/v1/Category/?pageSize=20&pageNumber=1",
+        {
+          headers: {
+            Authorization: headerAuth,
+          },
+        }
+      )
+      .then((response) => {
+        setCategoriesList(
+          response?.data?.data.filter((element) => {
+            return element !== undefined;
+          })
+        );
+      })
+      .catch((error) => console.log(error));
+  };
+  // setCategoriesList(
+  //   recipesList.map((data) => {
+  //     return data;
+  //   })
+  // .filter((element) => {
+  //   return element !== undefined;
+  // })
 
-  const getAllCategories = () =>
-    setCategoriesList(
-      recipesList
-        .map((data) => {
-          return data?.category[0];
-        })
-        .filter((element) => {
-          return element !== undefined;
-        })
-    );
+  // console.log(categoriesList);
   const getAllTags = () =>
     setTags(
       recipesList?.map((data) => {
@@ -80,12 +108,7 @@ const RecipesList = () => {
   };
   const showUpdateModal = (data) => {
     setShow("modal-update");
-
     setItemId(data.id);
-    // getAllTags();
-    // getAllCategories();
-    console.log(data.imagePath);
-    console.log(data.category[0].id);
     setValue("name", data.name);
     setValue("price", data.price);
     setValue("description", data.description);
@@ -114,12 +137,12 @@ const RecipesList = () => {
       return new Promise((resolve) => setTimeout(resolve, 2000));
     }
 
-    if (isLoading) {
+    if (loading) {
       simulateNetworkRequest().then(() => {
         setLoading(false);
       });
     }
-  }, [isLoading]);
+  }, [loading]);
   const handleChange = (event) => {
     setAge(event.target.value);
   };
@@ -129,14 +152,16 @@ const RecipesList = () => {
     /*Get recipes */
   }
 
-  const getRecipes = (pageNo) => {
+  const getRecipes = (pageNo, name, tagId, categoryId) => {
     axios
       .get(`${basUrl}Recipe/`, {
         headers: { Authorization: headerAuth },
-        params: { pageSize: 5, pageNumber: pageNo },
+        params: { pageSize: 5, pageNumber: pageNo, name, tagId, categoryId },
       })
       .then((response) => {
+        getAllTags();
         setIsLoading(true);
+
         setPageArray(
           Array(response.data.totalNumberOfPages)
             .fill()
@@ -179,7 +204,6 @@ const RecipesList = () => {
       });
   };
   const handleUpdateRecipes = (data) => {
-    console.log(data["categoriesIds"]);
     const formData = new FormData();
     formData.append("name", data["name"]);
     formData.append("price", data["price"]);
@@ -222,10 +246,15 @@ const RecipesList = () => {
         console.log(error);
       });
   };
+  const getNameValue = (e) => {
+    setSearchValue(e.target.value);
+    getRecipes(1, e.target.value);
+  };
+
   useEffect(() => {
-    getRecipes(1);
-    getAllCategories();
+    getRecipes(1, "");
     getAllTags();
+    getAllCategories();
   }, []);
 
   return (
@@ -236,26 +265,28 @@ const RecipesList = () => {
           <h4>Recipe Table Details</h4>
           <p>You can check all details</p>
         </div>
+
         <div>
           <Button
             type="submit "
             variant="success"
             size="lg"
             style={{ width: "15rem" }}
-            // disabled={show}
             onClick={showAddModal}
+            endIcon
           >
-            Add New Item
+            {loading ? "loading ..." : "Add New category"}
           </Button>
         </div>
       </div>
       {/* Check List */}
-      <div className="search-recipes d-flex align-items-center bg-light p-3 rounded-3">
-        <div className="w-100 ">
+      <Row className="search-recipes d-flex align-items-center bg-light p-3 rounded-3">
+        <Col className=" " md={8}>
           <TextField
             size="large"
             type="search"
-            placeholder="Password"
+            placeholder="Search here"
+            onChange={getNameValue}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -267,46 +298,46 @@ const RecipesList = () => {
             }}
             fullWidth
           />
-        </div>
-        <div className="check-List">
-          <Box sx={{ m: 1, width: 300 }} className="mx-2">
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Tag</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                label="Age"
-                onChange={handleChange}
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-        </div>
-        <div>
-          <Box sx={{ m: 1, width: 300 }} className="mx-2">
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Category</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                label="Age"
-                onChange={handleChange}
-              >
-                {categoriesList.map((data, index) => (
-                  <MenuItem key={index} value={10}>
-                    {data}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
-        </div>
-      </div>
+        </Col>
+        <Col className="check-List " md={2}>
+          <FloatingLabel controlId="floatingSelectGrid" label="Tags">
+            <Form.Select
+              aria-label="Floating label select "
+             onChange={getTagValue}
+            >
+              <options className="text-muted" value="0">
+                Select Tag
+              </options>
+              {tags.map((data, index) => (
+                <option key={index} value={data.id}>
+                  {data.name}
+                </option>
+              ))}
+            </Form.Select>
+            {errors.tagId && errors.tagId?.type === "required" && (
+              <span className="text-danger">this is required </span>
+            )}
+          </FloatingLabel>
+        </Col>
+        <Col md={2}>
+          <FloatingLabel controlId="floatingSelectGrid" label="Categories">
+            <Form.Select
+              aria-label="Floating label select"
+              // {...register("categoriesIds", { valueAsNumber: true })}
+              onChange={getCategoryValue}
+            >
+              <options className="text-muted" value="0">
+                Select Category
+              </options>
+              {categoriesList.map((data, index) => (
+                <option key={index} value={data.id}>
+                  {data.name}
+                </option>
+              ))}
+            </Form.Select>
+          </FloatingLabel>
+        </Col>
+      </Row>
       <div className="add-item ">
         <Modal
           show={show === "modal-add"}
@@ -396,10 +427,10 @@ const RecipesList = () => {
                 <Col>
                   <FloatingLabel
                     controlId="floatingSelectGrid"
-                    label="Works with selects"
+                    label="Works with selects Categories"
                   >
                     <Form.Select
-                      aria-label="Floating label select Category "
+                      aria-label="Floating label select"
                       {...register("categoriesIds", { valueAsNumber: true })}
                     >
                       {categoriesList.map((data, index) => (
@@ -681,31 +712,42 @@ const RecipesList = () => {
       </div>
       <div className="recipes-table my-3">
         {isLoading ? (
-          <RecipesTable
-            showUpdateModal={showUpdateModal}
-            showDeleteModal={showDeleteModal}
-            showViewModal={showViewModal}
-            recipesList={recipesList}
-            baseImg={baseImg}
-          />
+          <>
+            {recipesList.length > 0 ? (
+              <>
+                <RecipesTable
+                  showUpdateModal={showUpdateModal}
+                  showDeleteModal={showDeleteModal}
+                  showViewModal={showViewModal}
+                  recipesList={recipesList}
+                  baseImg={baseImg}
+                />
+                <div className=" my-3">
+                  <nav aria-label="...">
+                    <ul className="pagination pagination-md  justify-content-center">
+                      {pageArray.map((page, index) => (
+                        <li
+                          onClick={() => getRecipes(page, searchValue)}
+                          key={index}
+                          className={`page-item mx-1 cursor-pointer`}
+                        >
+                          <a className="page-link">{page}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                </div>
+              </>
+            ) : (
+              <div className="text-center">
+                <img src={noData} />
+                <p className="fw-bold fs-4">No Data</p>
+              </div>
+            )}
+          </>
         ) : (
           <CircularProgress color="success" />
         )}
-      </div>
-      <div className=" ">
-        <nav aria-label="...">
-          <ul className="pagination pagination-md  justify-content-center">
-            {pageArray.map((page, index) => (
-              <li
-                onClick={() => getRecipes(page)}
-                key={index}
-                className={`page-item mx-1 cursor-pointer`}
-              >
-                <a className="page-link">{page}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
       </div>
     </div>
   );

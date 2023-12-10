@@ -70,32 +70,32 @@ export default function CategoryTable(props) {
           </TableHead>
 
           <TableBody className="text-center"></TableBody>
-          {props.categoriesList ? (
-            <TableBody>
-              {props.categoriesList.map((row, index) => (
-                <StyledTableRow key={index}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.name}{" "}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.modificationDate}
-                  </StyledTableCell>
+          {/* {props.categoriesList.length >= 0 ? ( */}
+          <TableBody>
+            {props.categoriesList.map((row, index) => (
+              <StyledTableRow key={index}>
+                <StyledTableCell component="th" scope="row">
+                  {row.name}{" "}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.modificationDate}
+                </StyledTableCell>
 
-                  <StyledTableCell align="center">
-                    <div className="mx-2">
-                      {/* <MoreHorizIcon
+                <StyledTableCell align="center">
+                  <div className="mx-2">
+                    {/* <MoreHorizIcon
                         fontSize="small"
                         id={id}
                         onClick={handleClick}
                       /> */}
-                      {/* <Popper
+                    {/* <Popper
                         placement="left"
                         id={id}
                         open={open}
                         anchorEl={anchorEl}
                         transition
                       > */}
-                      {/* {({ TransitionProps }) => (
+                    {/* {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                           <Box
                             sx={{
@@ -104,9 +104,9 @@ export default function CategoryTable(props) {
                               bgcolor: "background.paper",
                               borderRadius: "1rem",
                             }} */}
-                      {/* > */}
-                      <List>
-                        {/* <ListItem disablePadding>
+                    {/* > */}
+                    <List>
+                      {/* <ListItem disablePadding>
                           <ListItemButton>
                             <ListItemIcon>
                               <Visibility className="text-success" />
@@ -114,54 +114,52 @@ export default function CategoryTable(props) {
                             <ListItemText primary="view" />
                           </ListItemButton>
                         </ListItem> */}
-                        {/* Update list */}
-                        <ListItem disablePadding>
-                          <OverlayTrigger
-                            trigger="click"
-                            placement="left"
-                            overlay={
-                              <Popover id={`popover-positioned-left`}>
-                                {/* <Popover.Header as="h3">{`Popover left`}</Popover.Header> */}
-                                <Popover.Body>
-                                  <ListItem
-                                    disablePadding
-                                    onClick={() => props.showUpdateModal(row)}
-                                  >
-                                    <strong>
-                                      {" "}
-                                      <i className="fa-regular fa-pen-to-square text-success"></i>
-                                      <span className="text-success mx-3">
-                                        Edit
-                                      </span>{" "}
-                                    </strong>
-                                  </ListItem>
-                                  <ListItem
-                                    disablePadding
-                                    className="my-2"
-                                    onClick={() =>
-                                      props.showDeleteModal(row.id)
-                                    }
-                                  >
-                                    <strong>
-                                      <DeleteOutlineIcon className="text-success" />
-                                      <span className="text-success mx-2 ">
-                                        Delete
-                                      </span>
-                                    </strong>
-                                  </ListItem>
-                                </Popover.Body>
-                              </Popover>
-                            }
-                          >
-                            <MoreHorizIcon
-                              fontSize="small"
-                              id={id}
-                              // onClick={handleClick}
-                            />
-                            {/* <Button variant="secondary">Popover on left</Button> */}
-                          </OverlayTrigger>
-                        </ListItem>
-                        {/* <ListItem
+                      {/* Update list */}
+                      <ListItem disablePadding>
+                        <OverlayTrigger
+                          trigger="click"
+                          placement="left"
+                          overlay={
+                            <Popover id={`popover-positioned-left`}>
+                              {/* <Popover.Header as="h3">{`Popover left`}</Popover.Header> */}
+                              <Popover.Body>
+                                <ListItem
+                                  disablePadding
+                                  onClick={() => props.showUpdateModal(row)}
+                                >
+                                  <strong>
+                                    {" "}
+                                    <i className="fa-regular fa-pen-to-square text-success"></i>
+                                    <span className="text-success mx-3">
+                                      Edit
+                                    </span>{" "}
+                                  </strong>
+                                </ListItem>
+                                <ListItem
+                                  disablePadding
+                                  className="my-2"
+                                  onClick={() => props.showDeleteModal(row.id)}
+                                >
+                                  <strong>
+                                    <DeleteOutlineIcon className="text-success" />
+                                    <span className="text-success mx-2 ">
+                                      Delete
+                                    </span>
+                                  </strong>
+                                </ListItem>
+                              </Popover.Body>
+                            </Popover>
+                          }
+                        >
+                          <MoreHorizIcon
+                            fontSize="small"
+                            id={id}
+                            // onClick={handleClick}
+                          />
+                          {/* <Button variant="secondary">Popover on left</Button> */}
+                        </OverlayTrigger>
+                      </ListItem>
+                      {/* <ListItem
                           disablePadding
                           onClick={() => props.showDeleteModal(row.id)}
                         >
@@ -172,23 +170,24 @@ export default function CategoryTable(props) {
                             <ListItemText primary="Delete" />
                           </ListItemButton>
                         </ListItem> */}
-                      </List>
-                      {/* </Box>
+                    </List>
+                    {/* </Box>
                         </Fade>
                       )} */}
-                      {/* </Popper> */}
-                    </div>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          ) : (
-            <div className="text-center">
-              <img src={noData} />
-            </div>
-          )}
+                    {/* </Popper> */}
+                  </div>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+          {/* // ) : (
+          //   <div className="text-center">
+          //     <img src={noData} />
+          //   </div>
+          // )} */}
         </Table>
       </TableContainer>
+      <div></div>
     </>
   );
 }

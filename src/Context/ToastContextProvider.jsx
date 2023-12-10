@@ -4,6 +4,7 @@ import React from "react";
 import { createContext } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 export const TostContext = createContext(null);
 
 const ToastContextProvider = (props) => {

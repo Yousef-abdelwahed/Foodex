@@ -25,7 +25,7 @@ const CategoryList = () => {
   // const [show, setShow] = useState(false);
   const [categoriesList, setCategoriesList] = useState([]);
   const [pageArray, setPageArray] = useState([]);
-
+  const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [modalState, setModalState] = useState("Closed");
@@ -34,18 +34,25 @@ const CategoryList = () => {
   const {
     handleSubmit,
     register,
+    setValue,
     formState: { errors },
   } = useForm();
   {
     /*Show Modals */
   }
-  const showAddModal = () => setModalState("modal-add");
+  const showAddModal = () => {
+    setValue("name", "");
+
+    setModalState("modal-add");
+  };
   const showDeleteModal = (id) => {
     setItemId(id);
     setModalState("modal-delete");
   };
   const showUpdateModal = (data) => {
     setItemId(data.id);
+    setValue("name", data["name"]);
+
     setModalState("modal-update");
   };
 
@@ -65,10 +72,9 @@ const CategoryList = () => {
       .then((response) => {
         getCategories();
         handleClose();
-
-        getToastValue("Success", "Deleted category successfully ");
+        getToastValue("success", "Deleted category successfully ");
       })
-      .catch((error) => getToastValue("error", console.log(error.message)));
+      .catch((error) => getToastValue("error", error.message));
   };
   {
     /*POSt category */
@@ -91,22 +97,22 @@ const CategoryList = () => {
   {
     /*Get category */
   }
-  const getCategories = (pageNo) => {
+  const getCategories = (pageNo, search) => {
     axios
       .get(`${basUrl}Category/`, {
         headers: {
           Authorization: headerAuth,
         },
-        params: { pageSize: 5, pageNumber: pageNo },
+        params: { pageSize: 5, pageNumber: pageNo, name: search },
       })
       .then((response) => {
+        setLoading(true);
         setCategoriesList(response.data.data);
         setPageArray(
           Array(response.data.totalNumberOfPages)
             .fill()
             .map((_, i) => i + 1)
         );
-        setLoading(true);
       })
       .catch((error) => getToastValue("error", error.message));
   };
@@ -126,13 +132,17 @@ const CategoryList = () => {
       })
       .catch((error) => getToastValue("error", error.message));
   };
+  const getNameValue = (e) => {
+    setSearchValue(e.target.value);
+    getCategories(1, e.target.value);
+  };
   useEffect(() => {
     getCategories(1);
   }, []);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+  // const handleChange = (event) => {
+  //   setAge(event.target.value);
+  // };
   return (
     <div className="Category-list">
       <ToastContainer />
@@ -155,12 +165,13 @@ const CategoryList = () => {
         </div>
       </div>
       {/* Check List */}
-      <div className="search-recipes d-flex align-items-center bg-light p-3 rounded-3">
+      <div className="search-category d-flex align-items-center bg-light p-3 rounded-3">
         <div className="w-100 ">
           <TextField
+            onChange={getNameValue}
             size="large"
             type="search"
-            placeholder="Password"
+            placeholder="Search here ...."
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -173,7 +184,7 @@ const CategoryList = () => {
             fullWidth
           />
         </div>
-        <div className="check-List">
+        {/* <div className="check-List">
           <Box sx={{ m: 1, width: 300 }} className="mx-2">
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Tag</InputLabel>
@@ -206,7 +217,7 @@ const CategoryList = () => {
               </Select>
             </FormControl>
           </Box>
-        </div>
+        </div> */}
       </div>
       {/* add Modal */}
       <div className="add-item ">
@@ -304,29 +315,40 @@ const CategoryList = () => {
       </div>
       <div className="recipes-table my-3">
         {loading ? (
-          <CategoryTable
-            categoriesList={categoriesList}
-            showDeleteModal={showDeleteModal}
-            showUpdateModal={showUpdateModal}
-          />
+          <>
+            {categoriesList.length > 0 ? (
+              <>
+                <CategoryTable
+                  categoriesList={categoriesList}
+                  showDeleteModal={showDeleteModal}
+                  showUpdateModal={showUpdateModal}
+                />
+                <div className="my-3">
+                  <nav aria-label="...">
+                    <ul className="pagination pagination-md justify-content-center">
+                      {pageArray.map((page, index) => (
+                        <li
+                          onClick={() => getCategories(page, searchValue)}
+                          key={index}
+                          className={`page-item mx-1 cursor-pointer `}
+                        >
+                          <a className="page-link cursor-pointer">{page}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                </div>
+              </>
+            ) : (
+              <div className="text-center">
+                <img src={noData} />
+                <p className="fw-bold fs-4">No Data</p>
+              </div>
+            )}
+          </>
         ) : (
           <CircularProgress color="success" />
         )}
-      </div>
-      <div className="">
-        <nav aria-label="...">
-          <ul className="pagination pagination-md justify-content-center">
-            {pageArray.map((page, index) => (
-              <li
-                onClick={() => getCategories(page)}
-                key={index}
-                className={`page-item mx-1 cursor-pointer `}
-              >
-                <a className="page-link cursor-pointer">{page}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
       </div>
     </div>
   );
