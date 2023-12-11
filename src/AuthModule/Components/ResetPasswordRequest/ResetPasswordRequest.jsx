@@ -15,8 +15,15 @@ import { faMobileScreenButton } from "@fortawesome/free-solid-svg-icons";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import DynamicInputField from "../../../SharedModule/Components/DynamicInputField/DynamicInputField";
+import { AuthContext } from "../../../Context/AuthContextProvider";
+import { useContext } from "react";
+import { TostContext } from "../../../Context/ToastContextProvider";
 
 const ResetPasswordRequest = () => {
+  const { basUrl, headerAuth } = useContext(AuthContext);
+  const { getToastValue } = useContext(TostContext);
+
   const {
     register,
     handleSubmit,
@@ -26,12 +33,14 @@ const ResetPasswordRequest = () => {
   const onSubmit = (data) => {
     console.log(data);
     axios
-      .post("http://upskilling-egypt.com:3002/api/v1/Users/Reset/Request", data)
+      .post(`${basUrl}Users/Reset/Request`, data, {
+        headers: { Authorization: headerAuth },
+      })
       .then((response) => {
         navigate("/reset-password");
-        setTimeout(() => toast(response.data.message), 1000);
+        setTimeout(() => getToastValue("success", response.data.message), 1000);
       })
-      .catch((error) => toast(error.response.data.message));
+      .catch((error) => getToastValue("error", error.response.data.message));
   };
   return (
     <Container fluid className="auth-container">
@@ -48,19 +57,13 @@ const ResetPasswordRequest = () => {
               Please Enter Your Email And Check Your Inbox
             </p>
             <Form onSubmit={handleSubmit(onSubmit)}>
-              <InputGroup className="mb-1" size="md">
-                <InputGroup.Text id="basic-addon1">
-                  <FontAwesomeIcon icon={faMobileScreenButton} />
-                </InputGroup.Text>
-                <Form.Control
-                  placeholder="Enter your E-mail"
-                  aria-label="email"
-                  aria-describedby="basic-addon1"
-                  {...register("email", {
-                    required: true,
-                  })}
-                />
-              </InputGroup>
+              <DynamicInputField
+                register={register}
+                type={"email"}
+                Enter
+                your
+                email
+              />
               {errors.email && errors.email?.type === "required" && (
                 <span className="text-danger"> Please Enter your Email </span>
               )}

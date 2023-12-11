@@ -14,10 +14,19 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import PasswordInput from "../../../SharedModule/Components/PasswordInput/PasswordInput";
+import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
+
 // import PasswordInput from "../../../SharedModule/Components/PasswordInput/PasswordInput";
+/** @format */
+import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
+import DynamicInputField from "../../../SharedModule/Components/DynamicInputField/DynamicInputField";
+import { TostContext } from "../../../Context/ToastContextProvider";
 
 const Login = ({ saveAdminData }) => {
+  const { getToastValue } = useContext(TostContext);
+
   const [password, setPassword] = useState("");
 
   const {
@@ -33,8 +42,9 @@ const Login = ({ saveAdminData }) => {
         localStorage.setItem("adminToken", response.data.token);
         saveAdminData();
         navigate("/dashboard");
+        getToastValue("success", "Login Successfully");
       })
-      .catch((error) => toast(error.response.data.message));
+      .catch((error) => getToastValue("error", error.message));
   };
 
   return (
@@ -52,61 +62,36 @@ const Login = ({ saveAdminData }) => {
               Welcome Back! Please enter your details
             </p>
             <Form onSubmit={handleSubmit(handleLoginForm)}>
-              <InputGroup className="mb-1" size="md">
-                <InputGroup.Text id="basic-addon1">
-                  <FontAwesomeIcon icon={faMobileScreenButton} />
-                </InputGroup.Text>
-                <Form.Control
-                  placeholder="Enter your E-mail"
-                  aria-label="email"
-                  aria-describedby="basic-addon1"
-                  {...register("email", {
-                    required: true,
-                    pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                  })}
+              <div className="my-2">
+                <DynamicInputField
+                  type={"email"}
+                  register={register}
+                  inputType={"email"}
+                  placeholder={"Please Enter your Email"}
                 />
-              </InputGroup>
+              </div>
               {errors.email && errors.email.type === "required" && (
                 <span className="text-danger">the email is required </span>
               )}
               {errors.email && errors.email.type === "pattern" && (
                 <span className="text-danger">invalid email </span>
               )}
-              <InputGroup className="my-2" size="md">
-                <InputGroup.Text id="basic-addon1">
-                  {/* <FontAwesomeIcon icon={faLock} />{" "} */}
-                </InputGroup.Text>
-                <Form.Control
-                  placeholder="Password"
-                  aria-label="Password"
-                  type="password"
-                  aria-describedby="basic-addon1"
-                  {...register("password", {
-                    required: true,
-                    min: 6,
-                  })}
-                />
-              </InputGroup>
-              {errors.password && errors.password?.type === "required" && (
-                <span className="text-danger">the password is required </span>
-              )}
-              {/* <div
+
+              <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
                 }}
               >
                 <PasswordInput
-                  password={password}
-                  handlePassword={(e) => setPassword(e.target.value)}
-                  validation={{
-                    ...register("password", {
-                      required: true,
-                      min: 6,
-                    }),
-                  }}
+                  register={register}
+                  placeholder={"Enter you password"}
+                  value={"password"}
                 />
-              </div> */}
+              </div>
+              {errors.password && errors.password?.type === "required" && (
+                <span className="text-danger">the password is required </span>
+              )}
               <div className="d-flex justify-content-between mb-4 my-2 courser ">
                 <Link to={"/register"}>Register Now?</Link>
 

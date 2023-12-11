@@ -1,6 +1,6 @@
 /** @format */
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
 import { useState } from "react";
 import { InputGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
@@ -8,34 +8,32 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import { useForm } from "react-hook-form";
-
 import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
-const PasswordInput = ({ password, validation }) => {
+
+const PasswordInput = ({ register, placeholder, value }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
   return (
     // <Box sx={{ "& > :not(style)": { m: 1 } }}>
     <TextField
       size="small"
       type={showPassword ? "text" : "password"}
-      // label="Password"
-      placeholder="Password"
-      // onChange={handlePassword}
+      placeholder={placeholder}
       required={true}
-      validation={validation}
+      {...register(value, {
+        required: true,
+        min: 6,
+      })}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
-            <span className=" me-2">
+            <span className=" me-1">
               <HttpsOutlinedIcon fontSize="small" color="action" />
-              <span className="input-icon ms-2"></span>
+              <span className="input-icon ms-1"></span>
             </span>
           </InputAdornment>
         ),
@@ -53,6 +51,7 @@ const PasswordInput = ({ password, validation }) => {
       }}
       fullWidth
     />
+    // </Box>
   );
 };
 

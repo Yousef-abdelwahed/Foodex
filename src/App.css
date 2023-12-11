@@ -29,8 +29,9 @@ body {
   border-radius: 0rem 2.625rem 0rem 0rem;
 }
 
-/* .input-icon {
-} */
+.input-icon {
+  border: 1px solid #a6a6a6 !important;
+}
 .ps-menuitem-root {
 }
 .active,

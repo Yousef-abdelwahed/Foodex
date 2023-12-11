@@ -2,25 +2,25 @@
 /** @format */
 
 import { Col, Container, Row } from "react-bootstrap";
-import InputGroup from "react-bootstrap/InputGroup";
-
-import Form from "react-bootstrap/Form";
-import {
-  faLock,
-  faMobileScreenButton,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMobileScreenButton } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
 import Button from "react-bootstrap/Button";
-
-import logo from "../../../assets/images/authLogo.png";
+import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
-// import { authLogin } from "../../../UrlModule";
+import logo from "../../../assets/images/authLogo.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import DynamicInputField from "../../../SharedModule/Components/DynamicInputField/DynamicInputField";
+import PasswordInput from "../../../SharedModule/Components/PasswordInput/PasswordInput";
+import { useContext } from "react";
+import { TostContext } from "../../../Context/ToastContextProvider";
 
 const ResetPassword = () => {
+  const { getToastValue } = useContext(TostContext);
+
   const {
     register,
     handleSubmit,
@@ -33,9 +33,9 @@ const ResetPassword = () => {
       .post("http://upskilling-egypt.com:3002/api/v1/Users/Reset", data)
       .then((response) => {
         navigate("/login");
-        setTimeout(() => toast(response.data.message), 500);
+        setTimeout(() => getToastValue("success", response.data.message), 500);
       })
-      .catch((error) => toast(error.response.data.message));
+      .catch((error) => getToastValue("error", error.response.data.message));
   };
 
   return (
@@ -53,7 +53,14 @@ const ResetPassword = () => {
               Please Enter Your Otp or Check Your Inbox
             </p>
             <Form onSubmit={handleSubmit(onSubmit)}>
-              <InputGroup className="mb-1" size="md">
+              <DynamicInputField
+                register={register}
+                type={"email"}
+                placeholder={"Enter Your Email"}
+              >
+                <FontAwesomeIcon icon={faMobileScreenButton} />
+              </DynamicInputField>
+              {/* <InputGroup className="mb-1" size="md">
                 <InputGroup.Text id="basic-addon1">
                   <FontAwesomeIcon icon={faMobileScreenButton} />
                 </InputGroup.Text>
@@ -65,64 +72,41 @@ const ResetPassword = () => {
                     required: true,
                   })}
                 />
-              </InputGroup>
+              </InputGroup> */}
               {errors.email && errors.email.type === "required" && (
                 <span className="text-danger">the email is required </span>
               )}
 
               {/* OTP */}
-              <InputGroup className="my-2" size="md">
-                <InputGroup.Text id="basic-addon1">
-                  <FontAwesomeIcon icon={faLock} />{" "}
-                </InputGroup.Text>
-                <Form.Control
-                  placeholder="OTP"
-                  aria-label="OTP"
-                  type="password"
-                  aria-describedby="basic-addon1"
-                  {...register("seed", {
-                    required: true,
-                    min: 6,
-                  })}
-                />
-              </InputGroup>
+              <DynamicInputField
+                register={register}
+                inputType={"password"}
+                type={"seed"}
+                placeholder={"OTP"}
+              >
+                <HttpsOutlinedIcon fontSize="small" color="action" />
+              </DynamicInputField>
               {errors.password && errors.password?.type === "required" && (
                 <span className="text-danger">the password is required </span>
               )}
               {/* Password */}
-              <InputGroup className="my-2" size="md">
-                <InputGroup.Text id="basic-addon1">
-                  <FontAwesomeIcon icon={faLock} />{" "}
-                </InputGroup.Text>
-                <Form.Control
-                  placeholder="New Password"
-                  aria-label="password"
-                  type="password"
-                  aria-describedby="basic-addon1"
-                  {...register("password", {
-                    required: true,
-                  })}
-                />
-              </InputGroup>
+              <PasswordInput
+                register={register}
+                value={"password"}
+                placeholder={"New Password"}
+              />
+
               {errors.password && errors.password?.type === "required" && (
                 <span className="text-danger">the password is required </span>
               )}
 
               {/* Confirm Password */}
-              <InputGroup className="my-2" size="md">
-                <InputGroup.Text id="basic-addon1">
-                  <FontAwesomeIcon icon={faLock} />
-                </InputGroup.Text>
-                <Form.Control
-                  placeholder="confirm Password"
-                  aria-label="confirm Password"
-                  type="password"
-                  aria-describedby="basic-addon1"
-                  {...register("confirmPassword", {
-                    required: true,
-                  })}
-                />
-              </InputGroup>
+              <PasswordInput
+                register={register}
+                value={"password"}
+                placeholder={"confirm Password"}
+              />
+
               {errors.confirmPassword &&
                 errors.confirmPassword?.type === "required" && (
                   <span className="text-danger">
