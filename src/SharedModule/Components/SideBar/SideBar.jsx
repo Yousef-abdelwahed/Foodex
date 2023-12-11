@@ -1,7 +1,7 @@
 /** @format */
 
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import style from "./SideBar.module.css";
 import { useState } from "react";
 import logo from "../../../assets/images/3.png";
@@ -11,12 +11,27 @@ import CategoriesIcon from "@mui/icons-material/CalendarMonthOutlined";
 import RecipesIcon from "@mui/icons-material/ViewQuilt";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import ChangePassword from "../../../AuthModule/Components/ChangePassword/ChangePassword";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(true);
+  const [show, setShow] = useState(false);
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    localStorage.removeItem("adminToken");
+    navigate("/login");
+  };
+ 
   return (
     <div className="">
+      <ChangePassword show={show} handleClose={handleClose} />
+
       <Sidebar className="vh-100" collapsed={!collapsed}>
         <Menu className="my-4 ">
           <li onClick={() => setCollapsed(!collapsed)}>
@@ -50,12 +65,14 @@ const SideBar = () => {
           </MenuItem>
           <MenuItem
             icon={<i className="fa-solid fa-lock-open"></i>}
-            component={<Link to="/reset-password-request" />}
+            onClick={handleShow}
+            // component={<Link to="/dashboard/change-password"/>}
           >
             Change Password
           </MenuItem>
           <MenuItem
             icon={<FontAwesomeIcon icon={faRightFromBracket} />}
+            onClick={handleLogOut}
             component={<Link to="/login" />}
           >
             Logout

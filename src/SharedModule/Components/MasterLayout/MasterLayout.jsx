@@ -1,16 +1,12 @@
 /** @format */
 
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "../Header/Header";
 import NavCompoenet from "../NavCompoenet/NavCompoenet";
 import SideBar from "../SideBar/SideBar";
+import { useEffect, useState } from "react";
 
 const MasterLayout = ({ adminData }) => {
-  // const [currentUrl, setCurrentUrl] = useState("");
-  // let location = useLocation();
-
-  // console.log(currentUrl);
-  // useEffect(() => setCurrentUrl(location.pathname), [currentUrl]);
   return (
     <div className="d-flex  px-0">
       <div
@@ -35,44 +31,6 @@ const MasterLayout = ({ adminData }) => {
             />
           </div>
 
-          <div className="bg-light  my-3  rounded-3 ">
-            {/* {location.pathname == "/dashboard" ? (
-                <>
-            <Container>
-                  <Row className="align-items-center  justify-content-between">
-                    <Col md={10}>
-                      <h2>
-                        Fill the <span className="text-success">Recipes !</span>{" "}
-                      </h2>
-                      <p>
-                        you can now fill the meals easily using the table and
-                        form , click here and sill it with the table !
-                      </p>
-                    </Col>
-                    <Col className="" md={2}>
-                      <div>
-                        <Button
-                          type="submit "
-                          variant="success"
-                          size="lg"
-                          disabled={isLoading}
-                          onClick={!isLoading ? handleClick : null}
-                        >
-                          {isLoading ? "Loading…" : `Fill Recipes`}
-
-                          <span>
-                            <ArrowForwardIcon fontSize="small" />{" "}
-                          </span>
-                        </Button>
-                      </div>
-                    </Col>
-                  </Row>
-            </Container>
-                </>
-              ) : (
-                ""
-              )} */}
-          </div>
           <Outlet />
         </div>
       </div>

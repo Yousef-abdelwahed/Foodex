@@ -11,7 +11,7 @@ const Header = ({ title, paragraph }) => {
 
   return (
     <>
-      <div className="header-section d-flex align-items-center  justify-content-between  px-2 bg-primary rounded-3">
+      <div className="header-section d-flex align-items-center bg-success justify-content-between  px-2  rounded-3">
         <div className="px-4">
           <h1>
             Welcome <span>{title}!</span>

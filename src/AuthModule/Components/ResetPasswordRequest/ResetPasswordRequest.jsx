@@ -35,7 +35,7 @@ const ResetPasswordRequest = () => {
   };
   return (
     <Container fluid className="auth-container">
-      <Row className="bg-overlay vh-100 justify-content-center align-items-center">
+      <Row className="bg-overlay vh-100 justify-content-center ">
         <ToastContainer />
         <Col md={6} className="">
           <div className="form-box p-4 rounded">

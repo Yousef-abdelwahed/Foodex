@@ -1,11 +1,6 @@
 /** @format */
 import SearchIcon from "@mui/icons-material/Search";
 import { CircularProgress, InputAdornment, TextField } from "@mui/material";
-import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
@@ -21,7 +16,6 @@ import noData from "../../../assets/images/noData.png";
 import CategoryTable from "./CategoryTable";
 const CategoryList = () => {
   const { basUrl, headerAuth } = useContext(AuthContext);
-  const [age, setAge] = useState("");
   // const [show, setShow] = useState(false);
   const [categoriesList, setCategoriesList] = useState([]);
   const [pageArray, setPageArray] = useState([]);

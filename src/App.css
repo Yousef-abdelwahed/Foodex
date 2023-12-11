@@ -40,8 +40,9 @@ body {
 }
 /*header-section*/
 .header-section {
-  background-image: url("./assets/images/Rectangle.png");
+  background-image: url("./assets/images/bgCyrcal.svg");
   background-size: cover;
+  min-width: 100%;
   background-position: center center;
   background-repeat: no-repeat;
 }

@@ -1,5 +1,7 @@
 /** @format */
 
+import Modal from "react-bootstrap/Modal";
+import ForgetPassword from "../ForgetPassword/ForgetPassword";
 import { Col, Container, Row } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 
@@ -15,8 +17,12 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useContext } from "react";
+import { TostContext } from "../../../Context/ToastContextProvider";
 const token = localStorage.getItem("adminToken");
-const ForgetPassword = () => {
+
+const ChangePassword = ({ show, handleClose, handleLogOut }) => {
+  const { getToastValue } = useContext(TostContext);
   const {
     register,
     handleSubmit,
@@ -26,7 +32,7 @@ const ForgetPassword = () => {
   const onSubmit = (data) => {
     axios
       .put(
-        "http://upskilling-egypt.com:3002/api/v1/Users/ChangePassword",
+        "https://upskilling-egypt.com:443/api/v1/Users/ChangePassword",
         data,
         {
           headers: {
@@ -35,20 +41,22 @@ const ForgetPassword = () => {
         }
       )
       .then((response) => {
-        console.log(response.data);
-        // setTimeout(toast("Wow so easy!"), 2000);
-        // saveAdminData();
-        navigate("/login");
-      })
-      .catch((error) => toast(error.response.data.message));
+        getToastValue("success", "Update Item Successfully");
+        setTimeout(getToastValue("success", "Update Item Successfully"), 2000);
+        // handleLogOut();
+      }) 
+      .catch((error) => getToastValue("error", error.message));
   };
-
   return (
-    <>
-      <Container fluid>
-        <Row className=" justify-content-center align-items-center ">
-          <ToastContainer />
-          <Col md={6}>
+    <div className="change-password w-100">
+      <Modal
+        className="d-flex justify-content-center align-items-center"
+        show={show}
+        onHide={handleClose}
+        size="lg"
+      >
+        <Modal.Body>
+          <Row className=" justify-content-center align-items-center ">
             <div className="form-box p-4 rounded">
               <div className="forget-password-box text-center p-2">
                 <img className="w-50 " src={logo} alt="" />
@@ -115,7 +123,7 @@ const ForgetPassword = () => {
                     <FontAwesomeIcon icon={faLock} />{" "}
                   </InputGroup.Text>
                   <Form.Control
-                    placeholder="Password"
+                    placeholder="Confirm new password"
                     aria-label="Password"
                     type="password"
                     aria-describedby="basic-addon1"
@@ -139,17 +147,22 @@ const ForgetPassword = () => {
                   )}
                 {/* change button */}
                 <div className="d-grid gap-2 my-2">
-                  <Button variant="success" type="submit" size="md">
+                  <Button
+                    variant="success"
+                    type="submit"
+                    size="md"
+                    // onClick={handleLogOut}
+                  >
                     Change Password
                   </Button>
                 </div>
               </Form>
-            </div>{" "}
-          </Col>
-        </Row>
-      </Container>
-    </>
+            </div>
+          </Row>
+        </Modal.Body>
+      </Modal>
+    </div>
   );
 };
 
-export default ForgetPassword;
+export default ChangePassword;

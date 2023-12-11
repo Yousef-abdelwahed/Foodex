@@ -1,11 +1,6 @@
 /** @format */
 import SearchIcon from "@mui/icons-material/Search";
 import { CircularProgress, InputAdornment, TextField } from "@mui/material";
-import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import { useEffect, useState } from "react";
 import { Button, Col, FloatingLabel, Form, Row } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
@@ -28,14 +23,11 @@ const RecipesList = () => {
   const [tags, setTags] = useState([]);
   const [pageArray, setPageArray] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [getSearchCategory, setGetSearchCategory] = useState("");
 
   const [itemId, setItemId] = useState(0);
   const [showRecipes, setShowRecipes] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [show, setShow] = useState("Closed");
-  const [age, setAge] = useState("");
 
   const [recipesKeys, setRecipesKeys] = useState([
     "name",
@@ -51,14 +43,14 @@ const RecipesList = () => {
     setValue,
     formState: { errors },
   } = useForm();
-  {/*Search by */}
+  {
+    /*Search by */
+  }
   const getCategoryValue = (e) => {
-    getRecipes(1, null, 
-          null, e.target.value);
+    getRecipes(1, null, null, e.target.value);
   };
   const getTagValue = (e) => {
-    getRecipes(1, null, ,e.target.value
-          null);
+    getRecipes(1, null, e.target.value, null);
   };
   const getAllCategories = () => {
     axios
@@ -79,21 +71,35 @@ const RecipesList = () => {
       })
       .catch((error) => console.log(error));
   };
-  // setCategoriesList(
-  //   recipesList.map((data) => {
-  //     return data;
-  //   })
-  // .filter((element) => {
-  //   return element !== undefined;
-  // })
-
-  // console.log(categoriesList);
-  const getAllTags = () =>
-    setTags(
-      recipesList?.map((data) => {
-        return data?.tag;
+  const getAllTags = () => {
+    axios
+      .get("https://upskilling-egypt.com:443/api/v1/tag", {
+        headers: {
+          Authorization: headerAuth,
+        },
       })
-    );
+      .then((response) => {
+        setTags(response?.data);
+      })
+      .catch((error) => console.log(error));
+  };
+  {
+    /* setCategoriesList(
+     recipesList.map((data) => {
+       return data;
+     })
+   .filter((element) => {
+     return element !== undefined;
+   })
+
+   console.log(categoriesList);
+   const getAllTags = () =>
+     setTags(
+       recipesList?.map((data) => {
+         return data?.tag;
+       })
+   );*/
+  }
 
   const handleClose = () => setShow("Closed");
   const showAddModal = () => {
@@ -114,7 +120,8 @@ const RecipesList = () => {
     setValue("description", data.description);
     setValue("tagId", data.tag.id);
     setValue("categoriesId", data.category[0].id);
-    // setValue("recipeImage", data.imagePath);
+    {
+      /*// setValue("recipeImage", data.imagePath);
 
     // recipesKeys.map((key) => {
     //   setValue(
@@ -125,28 +132,13 @@ const RecipesList = () => {
     //       ? data.category[0].id
     //       : data.key
     //   );
-    // });
+  // });*/
+    }
   };
   const showDeleteModal = (id) => {
     setItemId(id);
     setShow("modal-delete");
   };
-
-  useEffect(() => {
-    function simulateNetworkRequest() {
-      return new Promise((resolve) => setTimeout(resolve, 2000));
-    }
-
-    if (loading) {
-      simulateNetworkRequest().then(() => {
-        setLoading(false);
-      });
-    }
-  }, [loading]);
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-  const handleClick = () => setLoading(true);
 
   {
     /*Get recipes */
@@ -273,9 +265,9 @@ const RecipesList = () => {
             size="lg"
             style={{ width: "15rem" }}
             onClick={showAddModal}
-            endIcon
+            // endIcon
           >
-            {loading ? "loading ..." : "Add New category"}
+            {"Add New category"}
           </Button>
         </div>
       </div>
@@ -303,7 +295,7 @@ const RecipesList = () => {
           <FloatingLabel controlId="floatingSelectGrid" label="Tags">
             <Form.Select
               aria-label="Floating label select "
-             onChange={getTagValue}
+              onChange={getTagValue}
             >
               <options className="text-muted" value="0">
                 Select Tag

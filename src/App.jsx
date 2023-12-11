@@ -18,13 +18,20 @@ import UserList from "./UsersModule/Components/UserList/UserList";
 import { useContext } from "react";
 import { AuthContext } from "./Context/AuthContextProvider";
 import "react-toastify/dist/ReactToastify.css";
+import ProtectedRoute from "./SharedModule/Components/ProtectedRoute/ProtectedRoute";
+import ChangePassword from "./AuthModule/Components/ChangePassword/ChangePassword";
 
 function App() {
   let { adminData, saveAdminData } = useContext(AuthContext);
   const routes = createBrowserRouter([
     {
       path: "/dashboard",
-      element: <MasterLayout adminData={adminData} />,
+
+      element: (
+        <ProtectedRoute saveAdminData={saveAdminData}>
+          <MasterLayout adminData={adminData} />
+        </ProtectedRoute>
+      ),
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Home /> },

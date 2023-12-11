@@ -1,0 +1,8 @@
+/** @format */
+
+.notFound-page {
+  width: 100%;
+  background-image: url(../../../assets/images/notFounds/Vector.png);
+  background-repeat: no-repeat;
+  background-position: right -1% bottom 98%;
+}
