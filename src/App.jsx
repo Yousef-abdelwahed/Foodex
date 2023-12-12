@@ -3,23 +3,21 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import "./App.css";
-import ForgetPassword from "./AuthModule/Components/ForgetPassword/ForgetPassword";
+import { useContext } from "react";
+import "react-toastify/dist/ReactToastify.css";
 import Login from "./AuthModule/Components/Login/Login";
 import Register from "./AuthModule/Components/Register/Register";
 import ResetPassword from "./AuthModule/Components/ResetPassword/ResetPassword";
 import ResetPasswordRequest from "./AuthModule/Components/ResetPasswordRequest/ResetPasswordRequest";
 import CategoryList from "./CategoriesModule/Components/CategoryList/CategoryList";
+import { AuthContext } from "./Context/AuthContextProvider";
 import Home from "./HomeModule/Components/Home";
 import RecipesList from "./RecipesModule/Components/RecipesList/RecipesList";
 import AuthLayout from "./SharedModule/Components/AuthLayout/AuthLayout";
 import MasterLayout from "./SharedModule/Components/MasterLayout/MasterLayout";
 import NotFound from "./SharedModule/Components/NotFound/NotFound";
-import UserList from "./UsersModule/Components/UserList/UserList";
-import { useContext } from "react";
-import { AuthContext } from "./Context/AuthContextProvider";
-import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./SharedModule/Components/ProtectedRoute/ProtectedRoute";
-import ChangePassword from "./AuthModule/Components/ChangePassword/ChangePassword";
+import UserList from "./UsersModule/Components/UserList/UserList";
 
 function App() {
   let { adminData, saveAdminData } = useContext(AuthContext);
@@ -52,7 +50,6 @@ function App() {
           element: <Login saveAdminData={saveAdminData} />,
         },
 
-        { path: "forget-password", element: <ForgetPassword /> },
         { path: "register", element: <Register /> },
         { path: "reset-password-request", element: <ResetPasswordRequest /> },
         { path: "reset-password", element: <ResetPassword /> },

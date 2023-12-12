@@ -23,7 +23,7 @@ const DynamicInputField = ({
           pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
           min: 6,
         })}
-        InputProps={{
+      InputProps={{
           startAdornment: (
             <InputAdornment position="start">
               <span className=" me-2">

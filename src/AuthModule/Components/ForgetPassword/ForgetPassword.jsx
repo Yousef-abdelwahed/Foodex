@@ -2,6 +2,8 @@
 
 // /** @format */
 
+// /** @format */
+
 // import { Col, Container, Row } from "react-bootstrap";
 // import InputGroup from "react-bootstrap/InputGroup";
 
@@ -27,19 +29,15 @@
 //   const navigate = useNavigate();
 //   const onSubmit = (data) => {
 //     axios
-//       .put(
-//         "http://upskilling-egypt.com:3002/api/v1/Users/ChangePassword",
-//         data,
-//         {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//           },
-//         }
-//       )
+//       .put("http:upskilling-egypt.com:3002/api/v1/Users/ChangePassword", data, {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       })
 //       .then((response) => {
 //         console.log(response.data);
-//         // setTimeout(toast("Wow so easy!"), 2000);
-//         // saveAdminData();
+//         setTimeout(toast("Wow so easy!"), 2000);
+//         saveAdminData();
 //         navigate("/login");
 //       })
 //       .catch((error) => toast(error.response.data.message));

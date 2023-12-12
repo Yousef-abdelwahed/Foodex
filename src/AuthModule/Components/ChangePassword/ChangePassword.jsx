@@ -1,23 +1,21 @@
 /** @format */
 
-import Modal from "react-bootstrap/Modal";
-import ForgetPassword from "../ForgetPassword/ForgetPassword";
-import { Col, Container, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
+import Modal from "react-bootstrap/Modal";
 
-import Form from "react-bootstrap/Form";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
-import logo from "../../../assets/images/authLogo.png";
 import { useForm } from "react-hook-form";
+import logo from "../../../assets/images/authLogo.png";
 // import { authLogin } from "../../../UrlModule";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 import { TostContext } from "../../../Context/ToastContextProvider";
 const token = localStorage.getItem("adminToken");
 
