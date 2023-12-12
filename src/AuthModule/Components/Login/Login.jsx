@@ -77,25 +77,18 @@ const Login = ({ saveAdminData }) => {
                 <span className="text-danger">invalid email </span>
               )}
 
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <PasswordInput
-                  register={register}
-                  placeholder={"Enter you password"}
-                  value={"password"}
-                />
-              </div>
+              <PasswordInput
+                register={register}
+                placeholder={"Enter you password"}
+                value={"password"}
+              />
               {errors.password && errors.password?.type === "required" && (
                 <span className="text-danger">the password is required </span>
               )}
               <div className="d-flex justify-content-between mb-4 my-2 courser ">
-                <Link to={"/register"}>Register Now?</Link>
-
-                <span className=" courser ">
+                {/* <Link to={"/register"}>Register Now?</Link> */}
+                {"        "}
+                <span className=" courser d-block ms-auto">
                   <Link className="text-green " to={"/reset-password-request"}>
                     Forgot Password?
                   </Link>

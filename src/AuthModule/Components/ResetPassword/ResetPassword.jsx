@@ -1,22 +1,22 @@
 /** @format */
 /** @format */
 
-import { Col, Container, Row } from "react-bootstrap";
 import { faMobileScreenButton } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
+import axios from "axios";
+import { useContext } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
-import logo from "../../../assets/images/authLogo.png";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { TostContext } from "../../../Context/ToastContextProvider";
 import DynamicInputField from "../../../SharedModule/Components/DynamicInputField/DynamicInputField";
 import PasswordInput from "../../../SharedModule/Components/PasswordInput/PasswordInput";
-import { useContext } from "react";
-import { TostContext } from "../../../Context/ToastContextProvider";
+import logo from "../../../assets/images/authLogo.png";
 
 const ResetPassword = () => {
   const { getToastValue } = useContext(TostContext);

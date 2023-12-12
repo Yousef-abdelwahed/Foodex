@@ -12,7 +12,7 @@ const DynamicInputField = ({
   children,
 }) => {
   return (
-    <>
+    <div className="my-2">
       <TextField
         size="small"
         placeholder={placeholder}
@@ -40,7 +40,7 @@ const DynamicInputField = ({
         }}
         fullWidth
       />
-    </>
+    </div>
   );
 };
 

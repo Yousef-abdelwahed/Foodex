@@ -1,6 +1,5 @@
 /** @format */
 import { Col, Container, Row } from "react-bootstrap";
-import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 
 import Form from "react-bootstrap/Form";
@@ -10,15 +9,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import logo from "../../../assets/images/authLogo.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMobileScreenButton } from "@fortawesome/free-solid-svg-icons";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import DynamicInputField from "../../../SharedModule/Components/DynamicInputField/DynamicInputField";
-import { AuthContext } from "../../../Context/AuthContextProvider";
 import { useContext } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AuthContext } from "../../../Context/AuthContextProvider";
 import { TostContext } from "../../../Context/ToastContextProvider";
+import DynamicInputField from "../../../SharedModule/Components/DynamicInputField/DynamicInputField";
 
 const ResetPasswordRequest = () => {
   const { basUrl, headerAuth } = useContext(AuthContext);
@@ -31,7 +28,6 @@ const ResetPasswordRequest = () => {
   } = useForm();
   const navigate = useNavigate();
   const onSubmit = (data) => {
-    console.log(data);
     axios
       .post(`${basUrl}Users/Reset/Request`, data, {
         headers: { Authorization: headerAuth },
@@ -60,9 +56,7 @@ const ResetPasswordRequest = () => {
               <DynamicInputField
                 register={register}
                 type={"email"}
-                Enter
-                your
-                email
+                placeholder={"Enter your Email"}
               />
               {errors.email && errors.email?.type === "required" && (
                 <span className="text-danger"> Please Enter your Email </span>

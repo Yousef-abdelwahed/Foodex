@@ -18,40 +18,40 @@ const PasswordInput = ({ register, placeholder, value }) => {
   };
 
   return (
-    // <Box sx={{ "& > :not(style)": { m: 1 } }}>
-    <TextField
-      size="small"
-      type={showPassword ? "text" : "password"}
-      placeholder={placeholder}
-      required={true}
-      {...register(value, {
-        required: true,
-        min: 6,
-      })}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <span className=" me-1">
-              <HttpsOutlinedIcon fontSize="small" color="action" />
-              <span className="input-icon ms-1"></span>
-            </span>
-          </InputAdornment>
-        ),
-        endAdornment: (
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleClickShowPassword}
-              edge="end"
-            >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
-          </InputAdornment>
-        ),
-      }}
-      fullWidth
-    />
-    // </Box>
+    <div className="my-2">
+      <TextField
+        size="small"
+        type={showPassword ? "text" : "password"}
+        placeholder={placeholder}
+        required={true}
+        {...register(value, {
+          required: true,
+          min: 6,
+        })}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <span className=" me-1">
+                <HttpsOutlinedIcon fontSize="small" color="action" />
+                <span className="input-icon ms-1"></span>
+              </span>
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        fullWidth
+      />
+    </div>
   );
 };
 
