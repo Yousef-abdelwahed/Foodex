@@ -96,6 +96,8 @@ export default function RecipesTable(props) {
                       <OverlayTrigger
                         trigger="click"
                         placement="left"
+                        onClick={handleClick}
+                        anchorEl={anchorEl}
                         overlay={
                           <Popover id={`popover-positioned-left`}>
                             {/* <Popover.Header as="h3">{`Popover left`}</Popover.Header> */}
@@ -108,22 +110,10 @@ export default function RecipesTable(props) {
                                   <Visibility className="text-success" />
                                   <span className="text-success mx-3">
                                     View
-                                  </span>{" "}
+                                  </span>
                                 </strong>
                               </ListItem>
-                              <ListItem
-                                className="my-2"
-                                disablePadding
-                                onClick={() => props.showUpdateModal(row)}
-                              >
-                                <strong>
-                                  {" "}
-                                  <i className="fa-regular fa-pen-to-square text-success mx-1 fw-bold fs-5"></i>
-                                  <span className="text-success mx-3">
-                                    Edit
-                                  </span>{" "}
-                                </strong>
-                              </ListItem>
+
                               <ListItem
                                 disablePadding
                                 className="my-2"

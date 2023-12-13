@@ -2,9 +2,9 @@
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-import "./App.css";
 import { useContext } from "react";
 import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
 import Login from "./AuthModule/Components/Login/Login";
 import Register from "./AuthModule/Components/Register/Register";
 import ResetPassword from "./AuthModule/Components/ResetPassword/ResetPassword";
@@ -17,7 +17,7 @@ import AuthLayout from "./SharedModule/Components/AuthLayout/AuthLayout";
 import MasterLayout from "./SharedModule/Components/MasterLayout/MasterLayout";
 import NotFound from "./SharedModule/Components/NotFound/NotFound";
 import ProtectedRoute from "./SharedModule/Components/ProtectedRoute/ProtectedRoute";
-import UserList from "./UsersModule/Components/UserList/UserList";
+import UserLists from "./UsersModule/Components/UserList/UserLists";
 
 function App() {
   let { adminData, saveAdminData } = useContext(AuthContext);
@@ -33,7 +33,7 @@ function App() {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Home /> },
-        { path: "users", element: <UserList /> },
+        { path: "users", element: <UserLists /> },
         { path: "recipes", element: <RecipesList /> },
         { path: "categories", element: <CategoryList /> },
       ],
