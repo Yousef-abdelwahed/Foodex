@@ -149,7 +149,7 @@ const RecipesList = () => {
         { headers: { Authorization: headerAuth } }
       )
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
       })
       .catch((error) => console.log(error));
   };
@@ -286,7 +286,7 @@ const RecipesList = () => {
             onClick={showAddModal}
             // endIcon
           >
-            {"Add New category"}
+            {"Add New Recipes"}
           </Button>
         </div>
       </div>
