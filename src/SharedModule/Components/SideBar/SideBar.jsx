@@ -1,33 +1,32 @@
 /** @format */
 
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
 import { Link, useNavigate } from "react-router-dom";
 // import style from "./SideBar.module.css";
-import { useState } from "react";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CategoriesIcon from "@mui/icons-material/CalendarMonthOutlined";
+import HomeIcon from "@mui/icons-material/HomeOutlined";
+import RecipesIcon from "@mui/icons-material/ViewQuilt";
+import { useEffect, useState } from "react";
+import ChangePassword from "../../../AuthModule/Components/ChangePassword/ChangePassword";
 import logo from "../../../assets/images/3.png";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
-import HomeIcon from "@mui/icons-material/HomeOutlined";
-import CategoriesIcon from "@mui/icons-material/CalendarMonthOutlined";
-import RecipesIcon from "@mui/icons-material/ViewQuilt";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import ChangePassword from "../../../AuthModule/Components/ChangePassword/ChangePassword";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 
-const SideBar = () => {
+const SideBar = ({ adminData }) => {
   const [collapsed, setCollapsed] = useState(true);
   const [show, setShow] = useState(false);
-
+  const [currentUser, setCurrentUser] = useState("");
+  const userGroup = () => setCurrentUser(adminData?.userGroup);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   const navigate = useNavigate();
   const handleLogOut = () => {
     localStorage.removeItem("adminToken");
     navigate("/login");
   };
- 
+  useEffect(() => userGroup(), []);
+
   return (
     <div className="">
       <ChangePassword show={show} handleClose={handleClose} />
@@ -45,12 +44,16 @@ const SideBar = () => {
             Home
           </MenuItem>
 
-          <MenuItem
-            icon={<GroupOutlinedIcon fontSize="small" />}
-            component={<Link to="/dashboard/users" />}
-          >
-            Users
-          </MenuItem>
+          {currentUser === "SuperAdmin" ? (
+            <MenuItem
+              icon={<GroupOutlinedIcon fontSize="small" />}
+              component={<Link to="/dashboard/users" />}
+            >
+              Users
+            </MenuItem>
+          ) : (
+            ""
+          )}
           <MenuItem
             icon={<RecipesIcon fontSize="small" />}
             component={<Link to="/dashboard/recipes" />}
@@ -63,6 +66,17 @@ const SideBar = () => {
           >
             Categories
           </MenuItem>
+
+          {currentUser !== "SuperAdmin" ? (
+            <MenuItem
+              icon={<i className="fa-solid fa-heart"></i>}
+              component={<Link to="/dashboard/favorite" />}
+            >
+              Favorites
+            </MenuItem>
+          ) : (
+            ""
+          )}
           <MenuItem
             icon={<i className="fa-solid fa-lock-open"></i>}
             onClick={handleShow}

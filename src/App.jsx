@@ -18,6 +18,7 @@ import MasterLayout from "./SharedModule/Components/MasterLayout/MasterLayout";
 import NotFound from "./SharedModule/Components/NotFound/NotFound";
 import ProtectedRoute from "./SharedModule/Components/ProtectedRoute/ProtectedRoute";
 import UserLists from "./UsersModule/Components/UserList/UserLists";
+import Favorites from "./SharedModule/Components/Favorites/Favorites";
 
 function App() {
   let { adminData, saveAdminData } = useContext(AuthContext);
@@ -36,6 +37,7 @@ function App() {
         { path: "users", element: <UserLists /> },
         { path: "recipes", element: <RecipesList /> },
         { path: "categories", element: <CategoryList /> },
+        { path: "favorite", element: <Favorites /> },
       ],
     },
     {
@@ -49,7 +51,6 @@ function App() {
           path: "login",
           element: <Login saveAdminData={saveAdminData} />,
         },
-
         { path: "register", element: <Register /> },
         { path: "reset-password-request", element: <ResetPasswordRequest /> },
         { path: "reset-password", element: <ResetPassword /> },

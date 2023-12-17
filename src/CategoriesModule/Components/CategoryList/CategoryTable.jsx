@@ -129,8 +129,8 @@ export default function CategoryTable(props) {
                                 >
                                   <strong>
                                     {" "}
-                                    <i className="fa-regular fa-pen-to-square text-success"></i>
-                                    <span className="text-success mx-3">
+                                    <i className="fa-regular fa-pen-to-square text-success text-bold"></i>
+                                    <span className="text-success mx-3 ">
                                       Edit
                                     </span>{" "}
                                   </strong>

@@ -46,7 +46,7 @@ export default function RecipesTable(props) {
     setAnchorEl(event.currentTarget);
     setOpen((previousOpen) => !previousOpen);
   };
-
+  console.log();
   const canBeOpen = open && Boolean(anchorEl);
   const id = canBeOpen ? "transition-popper" : undefined;
 
@@ -113,19 +113,54 @@ export default function RecipesTable(props) {
                                   </span>
                                 </strong>
                               </ListItem>
-
-                              <ListItem
-                                disablePadding
-                                className="my-2"
-                                onClick={() => props.showDeleteModal(row.id)}
-                              >
-                                <strong>
-                                  <DeleteOutlineIcon className="text-success" />
-                                  <span className="text-success mx-3  ">
-                                    Delete
-                                  </span>
-                                </strong>
-                              </ListItem>
+                              {props.adminData?.userGroup !== "SuperAdmin" ? (
+                                <ListItem
+                                  disablePadding
+                                  className="my-2"
+                                  onClick={() => props.addToFavorite(row.id)}
+                                >
+                                  <strong>
+                                    <i className="fa-solid fa-heart text-bold fs-6 ms-1 text-success"></i>
+                                    <span className="text-success mx-4  ">
+                                      Favorite
+                                    </span>
+                                  </strong>
+                                </ListItem>
+                              ) : (
+                                ""
+                              )}
+                              {props.adminData?.userGroup === "SuperAdmin" ? (
+                                <>
+                                  <ListItem
+                                    disablePadding
+                                    className="my-2"
+                                    onClick={() => props.showUpdateModal(row)}
+                                  >
+                                    <strong>
+                                      <i className="fa-regular fa-pen-to-square text-success text-bold fs-6 ms-1"></i>
+                                      <span className="text-success mx-4  ">
+                                        Edit
+                                      </span>
+                                    </strong>
+                                  </ListItem>
+                                  <ListItem
+                                    disablePadding
+                                    className="my-2"
+                                    onClick={() =>
+                                      props.showDeleteModal(row.id)
+                                    }
+                                  >
+                                    <strong>
+                                      <DeleteOutlineIcon className="text-success" />
+                                      <span className="text-success mx-3  ">
+                                        Delete
+                                      </span>
+                                    </strong>
+                                  </ListItem>
+                                </>
+                              ) : (
+                                ""
+                              )}
                             </Popover.Body>
                           </Popover>
                         }

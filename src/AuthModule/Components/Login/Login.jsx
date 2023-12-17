@@ -42,7 +42,7 @@ const Login = ({ saveAdminData }) => {
         localStorage.setItem("adminToken", response.data.token);
         saveAdminData();
         navigate("/dashboard");
-        getToastValue("success", "Login Successfully");
+        // getToastValue("success", "Login Successfully");
       })
       .catch((error) => getToastValue("error", error.message));
   };

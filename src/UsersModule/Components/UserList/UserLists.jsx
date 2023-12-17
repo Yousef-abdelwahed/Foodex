@@ -5,29 +5,35 @@ import axios from "axios";
 import { Button, Form, Modal } from "react-bootstrap";
 import UserTable from "./UserTable";
 import noData from "../../../assets/images/nodata.png";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Stack } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { ToastContainer } from "react-toastify";
 import { AuthContext } from "../../../Context/AuthContextProvider";
 import { TostContext } from "../../../Context/ToastContextProvider";
+import Pagination from "@mui/material/Pagination";
 
 const UserLists = () => {
   const { getToastValue } = useContext(TostContext);
   const { basUrl, headerAuth, baseImg } = useContext(AuthContext);
 
+  const [showUsers, setShowUsers] = useState();
+  const [pageCount, setPageCount] = useState(1);
+  const [userList, setUserList] = useState([]);
+
+  const [itemId, setItemId] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [show, setShow] = useState("Closed");
+  console.log(currentPage);
+
   const {
-    register,
+    // register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
-  const [userList, setUserList] = useState([]);
-  const [pageArray, setPageArray] = useState([]);
-
-  const [show, setShow] = useState("Closed");
-  const [showUsers, setShowUsers] = useState();
-  const [itemId, setItemId] = useState(0);
-
+  {
+    /* show modal */
+  }
   const showViewModal = (data) => {
     setShow("modal-view");
     setShowUsers(data);
@@ -39,19 +45,23 @@ const UserLists = () => {
   };
   const handleClose = () => setShow("Closed");
 
-  const getUsers = () => {
+  {
+    /* Handle API */
+  }
+  const getUsers = (pageNo) => {
+    setIsLoading(true);
+
     axios
-      .get(`${basUrl}Users/?pageSize=10&pageNumber=1`, {
+      .get(`https://upskilling-egypt.com:443/api/v1/Users/`, {
         headers: { Authorization: headerAuth },
+        params: { pageSize: 5, pageNumber: pageNo },
       })
       .then((response) => {
+        setIsLoading(false);
         setUserList(response.data.data);
-        setIsLoading(true);
-        setPageArray(
-          Array(response.data.totalNumberOfPages)
-            .fill()
-            .map((_, i) => i + 1)
-        );
+
+        setPageCount(response.data.totalNumberOfPages);
+        setCurrentPage(pageNo);
       })
       .catch((error) => console.log(error));
   };
@@ -64,7 +74,6 @@ const UserLists = () => {
         },
       })
       .then((response) => {
-        console.log(response);
         getToastValue("success", "Deleted successfully");
         setIsLoading(true);
         getUsers();
@@ -73,9 +82,13 @@ const UserLists = () => {
         getToastValue("error", error.message);
       });
   };
+
   useEffect(() => {
-    getUsers();
-  }, []);
+    getUsers(currentPage); // Initial data fetch
+  }, []); // Only re-run when currentPage changes
+  const handleChange = (event, page) => {
+    getUsers(page);
+  };
   return (
     <div className="users-list">
       <ToastContainer />
@@ -184,7 +197,7 @@ const UserLists = () => {
         </Modal>
       </div>
       <div className="recipes-table my-3">
-        {isLoading ? (
+        {!isLoading ? (
           <>
             {userList.length > 0 ? (
               <>
@@ -194,20 +207,13 @@ const UserLists = () => {
                   showViewModal={showViewModal}
                   baseImg={baseImg}
                 />
-                <div className=" my-3">
-                  <nav aria-label="...">
-                    <ul className="pagination pagination-md  justify-content-center">
-                      {pageArray.map((page, index) => (
-                        <li
-                          onClick={() => getRecipes(page, searchValue)}
-                          key={index}
-                          className={`page-item mx-1 cursor-pointer`}
-                        >
-                          <a className="page-link">{page}</a>
-                        </li>
-                      ))}
-                    </ul>
-                  </nav>
+                <div className=" my-3 m-auto by-dark">
+                  <Pagination
+                    count={pageCount}
+                    color="success"
+                    onChange={handleChange}
+                    page={currentPage}
+                  />
                 </div>
               </>
             ) : (

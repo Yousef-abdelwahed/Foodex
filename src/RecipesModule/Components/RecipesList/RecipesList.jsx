@@ -16,7 +16,7 @@ import { TostContext } from "../../../Context/ToastContextProvider";
 
 const RecipesList = () => {
   const { getToastValue } = useContext(TostContext);
-  const { basUrl, headerAuth, baseImg } = useContext(AuthContext);
+  const { basUrl, headerAuth, baseImg, adminData } = useContext(AuthContext);
 
   const [recipesList, setRecipesList] = useState([]);
   const [categoriesList, setCategoriesList] = useState([]);
@@ -140,11 +140,26 @@ const RecipesList = () => {
     setShow("modal-delete");
   };
 
+  const addToFavorite = (id) => {
+    setItemId(id);
+    axios
+      .post(
+        "https://upskilling-egypt.com:443/api/v1/userRecipe/",
+        { recipeId: itemId },
+        { headers: { Authorization: headerAuth } }
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
   {
     /*Get recipes */
   }
 
   const getRecipes = (pageNo, name, tagId, categoryId) => {
+    setIsLoading(true);
+
     axios
       .get(`${basUrl}Recipe/`, {
         headers: { Authorization: headerAuth },
@@ -152,7 +167,7 @@ const RecipesList = () => {
       })
       .then((response) => {
         getAllTags();
-        setIsLoading(true);
+        setIsLoading(false);
 
         setPageArray(
           Array(response.data.totalNumberOfPages)
@@ -169,6 +184,7 @@ const RecipesList = () => {
   }
 
   const handlePostRecipes = (data) => {
+    setIsLoading(true);
     const formData = new FormData();
 
     // for (const property in data) {
@@ -190,6 +206,7 @@ const RecipesList = () => {
         getToastValue("success", request.data.message);
         handleClose();
         getRecipes();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -217,12 +234,14 @@ const RecipesList = () => {
         getToastValue("success", "Updated successfully");
         getRecipes();
         handleClose();
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
       });
   };
   const handleDeleteRecipes = () => {
+    setIsLoading(true);
     axios
       .delete(`${basUrl}Recipe/${itemId}`, {
         headers: {
@@ -231,7 +250,7 @@ const RecipesList = () => {
       })
       .then((response) => {
         getToastValue("error", "Deleted successfully");
-        setIsLoading(true);
+        setIsLoading(false);
         getRecipes();
       })
       .catch((error) => {
@@ -703,7 +722,7 @@ const RecipesList = () => {
         </Modal>
       </div>
       <div className="recipes-table my-3">
-        {isLoading ? (
+        {!isLoading ? (
           <>
             {recipesList.length > 0 ? (
               <>
@@ -713,6 +732,8 @@ const RecipesList = () => {
                   showViewModal={showViewModal}
                   recipesList={recipesList}
                   baseImg={baseImg}
+                  adminData={adminData}
+                  addToFavorite={addToFavorite}
                 />
                 <div className=" my-3">
                   <nav aria-label="...">

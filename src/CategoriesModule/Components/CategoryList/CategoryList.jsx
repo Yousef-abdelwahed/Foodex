@@ -20,7 +20,7 @@ const CategoryList = () => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [pageArray, setPageArray] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [modalState, setModalState] = useState("Closed");
   const [itemId, setItemId] = useState(0);
@@ -59,6 +59,8 @@ const CategoryList = () => {
   }
 
   const handleDeleteCategory = () => {
+    setIsLoading(true);
+
     axios
       .delete(`${basUrl}Category/${itemId}`, {
         headers: { Authorization: headerAuth },
@@ -67,6 +69,7 @@ const CategoryList = () => {
         getCategories();
         handleClose();
         getToastValue("success", "Deleted category successfully ");
+        setIsLoading(false);
       })
       .catch((error) => getToastValue("error", error.message));
   };
@@ -75,6 +78,8 @@ const CategoryList = () => {
   }
 
   const handlePostCategory = (data) => {
+    setIsLoading(true);
+
     axios
       .post(`${basUrl}Category/`, data, {
         headers: {
@@ -85,6 +90,7 @@ const CategoryList = () => {
         getCategories();
         getToastValue("success", "Add category successfully ");
         handleClose();
+        setIsLoading(false);
       })
       .catch((error) => getToastValue("error", error.message));
   };
@@ -92,6 +98,8 @@ const CategoryList = () => {
     /*Get category */
   }
   const getCategories = (pageNo, search) => {
+    setIsLoading(true);
+
     axios
       .get(`${basUrl}Category/`, {
         headers: {
@@ -100,7 +108,7 @@ const CategoryList = () => {
         params: { pageSize: 5, pageNumber: pageNo, name: search },
       })
       .then((response) => {
-        setLoading(true);
+        setIsLoading(false);
         setCategoriesList(response.data.data);
         setPageArray(
           Array(response.data.totalNumberOfPages)
@@ -114,6 +122,8 @@ const CategoryList = () => {
     /*Update api */
   }
   const handleUpdateCategory = (data) => {
+    setIsLoading(true);
+
     axios
       .put(`${basUrl}Category/${itemId}`, data, {
         headers: { Authorization: headerAuth },
@@ -122,7 +132,7 @@ const CategoryList = () => {
         getCategories();
         getToastValue("success", "Update Item Successfully");
         handleClose();
-        setLoading(true);
+        setIsLoading(false);
       })
       .catch((error) => getToastValue("error", error.message));
   };
@@ -308,7 +318,7 @@ const CategoryList = () => {
         </Modal>
       </div>
       <div className="recipes-table my-3">
-        {loading ? (
+        {!isLoading ? (
           <>
             {categoriesList.length > 0 ? (
               <>
@@ -317,7 +327,7 @@ const CategoryList = () => {
                   showDeleteModal={showDeleteModal}
                   showUpdateModal={showUpdateModal}
                 />
-                <div className="my-3">
+                <div className="my-2">
                   <nav aria-label="...">
                     <ul className="pagination pagination-md justify-content-center">
                       {pageArray.map((page, index) => (

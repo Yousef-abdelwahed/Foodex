@@ -1,10 +1,9 @@
 /** @format */
 
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Header from "../Header/Header";
 import NavCompoenet from "../NavCompoenet/NavCompoenet";
 import SideBar from "../SideBar/SideBar";
-import { useEffect, useState } from "react";
 
 const MasterLayout = ({ adminData }) => {
   return (
@@ -15,7 +14,7 @@ const MasterLayout = ({ adminData }) => {
           borderRadius: "0rem 2.625rem 0rem 0rem",
         }}
       >
-        <SideBar />
+        <SideBar adminData={adminData} />
       </div>
       <div className="w-100 my-3 mx-2">
         <div className="mx-3 ">
@@ -24,14 +23,14 @@ const MasterLayout = ({ adminData }) => {
           </div>
           <div className="header-sec">
             <Header
-              title={"UpSkilling"}
+              title={adminData?.userName}
               paragraph={
                 " This is a welcoming screen for the entry of the application , you can    now see the options"
               }
             />
           </div>
 
-          <Outlet />
+          <Outlet adminData={adminData}></Outlet>
         </div>
       </div>
     </div>
