@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { AuthContext } from "../../../Context/AuthContextProvider";
 import { TostContext } from "../../../Context/ToastContextProvider";
-import noData from "../../../assets/images/noData.png";
+import noData from "../../../assets/images/nodata.png;
 import CategoryTable from "./CategoryTable";
 const CategoryList = () => {
   const { basUrl, headerAuth } = useContext(AuthContext);
