@@ -110,6 +110,8 @@ const RecipesList = () => {
   };
 
   const addToFavorite = (id) => {
+    setIsLoading(true);
+
     setItemId(id);
     axios
       .post(
@@ -118,7 +120,10 @@ const RecipesList = () => {
         { headers: { Authorization: headerAuth } }
       )
       .then((response) => {
+        getToastValue("success", response.data.message);
+
         console.log(response.data);
+        setIsLoading(false);
       })
       .catch((error) => console.log(error));
   };

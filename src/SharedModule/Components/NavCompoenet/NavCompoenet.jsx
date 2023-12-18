@@ -33,7 +33,7 @@ const NavCompoenet = (adminData) => {
             </div>
             <Navbar.Text>{data?.adminData?.userName}</Navbar.Text>
             <div className="mx-3">
-              <NavDropdown title={" "} id="basic-nav-dropdown">
+              {/* <NavDropdown title={" "} id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
                   Another action
@@ -45,7 +45,7 @@ const NavCompoenet = (adminData) => {
                 <NavDropdown.Item href="#action/3.4">
                   Separated link
                 </NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown> */}
               {/* <KeyboardArrowDownIcon fontSize="small" /> */}
             </div>
             <div className="mx-3">

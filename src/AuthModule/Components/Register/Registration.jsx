@@ -55,8 +55,6 @@ const Registration = () => {
         }
       )
       .then((response) => {
-        // console.log(response);
-
         toast.success(response.data.message, {
           autoClose: 2000,
         });
