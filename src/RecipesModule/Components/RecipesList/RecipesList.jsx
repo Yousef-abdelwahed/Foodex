@@ -83,23 +83,6 @@ const RecipesList = () => {
       })
       .catch((error) => console.log(error));
   };
-  {
-    /* setCategoriesList(
-     recipesList.map((data) => {
-       return data;
-     })
-   .filter((element) => {
-     return element !== undefined;
-   })
-
-   console.log(categoriesList);
-   const getAllTags = () =>
-     setTags(
-       recipesList?.map((data) => {
-         return data?.tag;
-       })
-   );*/
-  }
 
   const handleClose = () => setShow("Closed");
   const showAddModal = () => {
@@ -120,20 +103,6 @@ const RecipesList = () => {
     setValue("description", data.description);
     setValue("tagId", data.tag.id);
     setValue("categoriesId", data.category[0].id);
-    {
-      /*// setValue("recipeImage", data.imagePath);
-
-    // recipesKeys.map((key) => {
-    //   setValue(
-    //     key === "tagId"
-    //       ? data.tag.id
-    //       : data.key
-    //       && key === "categoriesId"
-    //       ? data.category[0].id
-    //       : data.key
-    //   );
-  // });*/
-    }
   };
   const showDeleteModal = (id) => {
     setItemId(id);
@@ -282,7 +251,7 @@ const RecipesList = () => {
             type="submit "
             variant="success"
             size="lg"
-            style={{ width: "15rem" }}
+            style={{ width: "12rem" }}
             onClick={showAddModal}
             // endIcon
           >
@@ -455,47 +424,6 @@ const RecipesList = () => {
                 <Form.Group controlId="formFile" className="mb-3">
                   <Form.Control type="file" {...register("recipeImage")} />
                 </Form.Group>
-                {/* <Box sx={{ m: 0, width: "300" }} className="mb-x">
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    Category
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={age}
-                    label="Age"
-                    onChange={handleChange}
-                  >
-                    {categoriesList.map((data, index) => (
-                      <MenuItem key={index} value={10}>
-                        {data}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Box> */}
-
-                {/* <Box sx={{ m: 0, width: "300" }} className="mb-3">
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    Category
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={age}
-                    label="Age"
-                    onChange={handleChange}
-                  >
-                    {categoriesList.map((data, index) => (
-                      <MenuItem key={index} value={10}>
-                        {data}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Box> */}
               </Row>
             </Modal.Body>
             <Modal.Footer>

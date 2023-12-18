@@ -42,7 +42,7 @@ const Banner = () => {
               type="submit "
               variant="success"
               size="lg"
-              style={{ width: "15rem" }}
+              style={{ width: "11rem" }}
               disabled={isLoading}
               onClick={!isLoading ? handleClick : null}
             >

@@ -160,11 +160,11 @@ const CategoryList = () => {
             type="submit "
             variant="success"
             size="lg"
-            style={{ width: "15rem" }}
+            style={{ width: "12rem" }}
             // disabled={show}
             onClick={showAddModal}
           >
-            {`Add New Category`}
+            {`Add Category`}
           </Button>
         </div>
       </div>
