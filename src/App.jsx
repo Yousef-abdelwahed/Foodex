@@ -6,19 +6,20 @@ import { useContext } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Login from "./AuthModule/Components/Login/Login";
-import Register from "./AuthModule/Components/Register/Register";
+import Registration from "./AuthModule/Components/Register/Registration";
 import ResetPassword from "./AuthModule/Components/ResetPassword/ResetPassword";
 import ResetPasswordRequest from "./AuthModule/Components/ResetPasswordRequest/ResetPasswordRequest";
+import VerifyUser from "./AuthModule/Components/VerifyUser/VerifyUser";
 import CategoryList from "./CategoriesModule/Components/CategoryList/CategoryList";
 import { AuthContext } from "./Context/AuthContextProvider";
 import Home from "./HomeModule/Components/Home";
 import RecipesList from "./RecipesModule/Components/RecipesList/RecipesList";
 import AuthLayout from "./SharedModule/Components/AuthLayout/AuthLayout";
+import Favorites from "./SharedModule/Components/Favorites/Favorites";
 import MasterLayout from "./SharedModule/Components/MasterLayout/MasterLayout";
 import NotFound from "./SharedModule/Components/NotFound/NotFound";
 import ProtectedRoute from "./SharedModule/Components/ProtectedRoute/ProtectedRoute";
 import UserLists from "./UsersModule/Components/UserList/UserLists";
-import Favorites from "./SharedModule/Components/Favorites/Favorites";
 
 function App() {
   let { adminData, saveAdminData } = useContext(AuthContext);
@@ -51,9 +52,10 @@ function App() {
           path: "login",
           element: <Login saveAdminData={saveAdminData} />,
         },
-        { path: "register", element: <Register /> },
+        { path: "register", element: <Registration /> },
         { path: "reset-password-request", element: <ResetPasswordRequest /> },
         { path: "reset-password", element: <ResetPassword /> },
+        { path: "verify-user", element: <VerifyUser /> },
       ],
     },
   ]);
