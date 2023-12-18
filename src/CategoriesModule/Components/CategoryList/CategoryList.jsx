@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { AuthContext } from "../../../Context/AuthContextProvider";
 import { TostContext } from "../../../Context/ToastContextProvider";
-import noData from "../../../assets/images/nodata.png;
+import noData from "../../../assets/images/nodata.png";
 import CategoryTable from "./CategoryTable";
 const CategoryList = () => {
   const { basUrl, headerAuth } = useContext(AuthContext);
@@ -31,9 +31,7 @@ const CategoryList = () => {
     setValue,
     formState: { errors },
   } = useForm();
-  {
-    /*Show Modals */
-  }
+
   const showAddModal = () => {
     setValue("name", "");
 
@@ -50,13 +48,7 @@ const CategoryList = () => {
     setModalState("modal-update");
   };
 
-  {
-    /*Close Modals */
-  }
   const handleClose = () => setModalState("Closed");
-  {
-    /*Handle API category */
-  }
 
   const handleDeleteCategory = () => {
     setIsLoading(true);
@@ -73,9 +65,6 @@ const CategoryList = () => {
       })
       .catch((error) => getToastValue("error", error.message));
   };
-  {
-    /*POSt category */
-  }
 
   const handlePostCategory = (data) => {
     setIsLoading(true);
@@ -94,9 +83,7 @@ const CategoryList = () => {
       })
       .catch((error) => getToastValue("error", error.message));
   };
-  {
-    /*Get category */
-  }
+
   const getCategories = (pageNo, search) => {
     setIsLoading(true);
 
@@ -118,9 +105,7 @@ const CategoryList = () => {
       })
       .catch((error) => getToastValue("error", error.message));
   };
-  {
-    /*Update api */
-  }
+
   const handleUpdateCategory = (data) => {
     setIsLoading(true);
 
