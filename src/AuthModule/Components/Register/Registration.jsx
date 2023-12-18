@@ -86,7 +86,7 @@ const Registration = () => {
                     <input
                       className="form-control"
                       type="text"
-                      placeholder="Enter your userName"
+                      placeholder="Enter your Name"
                       {...register("userName", {
                         required: "userName is required",
                       })}
@@ -105,17 +105,15 @@ const Registration = () => {
                   </div>
 
                   <div className="col-md-6">
-                    <div className="my-2">
-                      <input
-                        className="form-control"
-                        type="email"
-                        placeholder="Enter your email"
-                        id="email"
-                        {...register("email", {
-                          required: "email is required",
-                        })}
-                      />
-                    </div>
+                    <input
+                      className="form-control"
+                      type="email"
+                      placeholder="Enter your email"
+                      id="email"
+                      {...register("email", {
+                        required: "email is required",
+                      })}
+                    />
                     {errors.email && (
                       <span className="text-danger">
                         {errors.email.message}
@@ -222,7 +220,12 @@ const Registration = () => {
                     </Link>
                   </div>
                   <div className="d-grid gap-2 my-2">
-                    <Button variant="success" type="submit" size="md">
+                    <Button
+                      variant="success"
+                      type="submit"
+                      size="md"
+                      disable={isLoading}
+                    >
                       {isLoading ? (
                         <Loading />
                       ) : (
